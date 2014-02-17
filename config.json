@@ -1,0 +1,7 @@
+{
+  "serverOpts": {},
+  "listenOpts": {
+    "port": 80
+  },
+  "oldArchiveDir": "data/archives"
+}

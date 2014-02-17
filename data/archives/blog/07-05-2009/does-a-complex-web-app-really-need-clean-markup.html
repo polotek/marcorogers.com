@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:tal="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="CODE [sic] Contributing to the web technology conversation" name="description"/>
+        <meta content="Marco Rogers" name="author"/>
+        <title>Does a Complex Web App Really Need Clean Markup? | CODE [sic]</title>
+
+        <link href="../static/css/style.css" rel="stylesheet" type="text/css"/>
+        
+
+        <link href="../rss.rss" rel="alternate" title="CODE [sic] RSS 2.0 Content" type="application/rss+xml"/>
+    </head>
+    <body class="post">
+        <div id="wrapper">
+
+            <div id="header">
+    <div class="container">
+        
+        <h2 id="blog_title"><a href="../index.html">CODE [<em>sic</em>]</a></h2>
+        <p class="desc">Contributing to the web technology conversation</p>
+        <div id="search">
+            <form action="/blog/blog_search" method="get">
+                <fieldset>
+                    <label for="query">Search</label>
+                    <input id="query" name="query" type="text"/>
+                    <input class="submit" type="submit" value="Go"/>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+            <div id="access">
+    <div class="skip_link"><a href="does-a-complex-web-app-really-need-clean-markup.html#content" title="Skip navigation to the content">Skip to content</a></div>
+    <div id="menu">
+        <ul>
+            <li><a href="../index.html" title="Home">Home</a></li>
+            <li><a href="../about.html" title="About">About</a></li>
+        </ul>
+    </div>
+</div>
+
+            <div id="container">
+
+  <!--[if lt IE 7]>  <div style='margin:20px 0; border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='does-a-complex-web-app-really-need-clean-markup.html#' onclick='javascript:this.parentNode.parentNode.style.display='none'; return false;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>    <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>      <div style='width: 75px; float: left;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>      <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>You are using an outdated browser</div>        <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>For a better experience using this site, please upgrade to a modern web browser.</div>      </div>      <div style='width: 75px; float: left;'><a href='http://www.firefox.com' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>      <div style='width: 75px; float: left;'><a href='http://www.browserforthebetter.com/download.html' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-ie8.jpg' style='border: none;' alt='Get Internet Explorer 8'/></a></div>      <div style='width: 73px; float: left;'><a href='http://www.apple.com/safari/download/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>      <div style='float: left;'><a href='http://www.google.com/chrome' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-chrome.jpg' style='border: none;' alt='Get Google Chrome'/></a></div>    </div>  </div>  <![endif]-->
+
+                <div class="post" id="main_content">
+    <h1 class="post_title">Does a Complex Web App Really Need Clean Markup?</h1>
+    <span class="dateline">07-05-2009 12:31 AM</span>&#160;&#160;<span class="dateline"><a href="does-a-complex-web-app-really-need-clean-markup.html" title="Permanent Link: Does a Complex Web App Really Need Clean Markup?">permalink</a></span>
+
+    <p>I found myself pondering this question today in a response to a <a href="http://twitter.com/ncb000gt/status/2469370227">status message</a></p>
+
+
+
+
+<blockquote>While I do really like the ExtJS APIs the generated markup makes me cry. A button should not be made of multiple 's. #fail</blockquote>
+
+
+
+
+<p>I had this same gripe a while back when I was <a href="../04-05-2009/add-your-current-facebook-status-to-your-home-page.html">hacking facebook with greasemonkey</a>.&#160;
+I felt like facebook was flouting everything we've learned about web
+standards and structured content.&nbsp; Everything is a &lt;div&gt;
+wrapped in multiple other &lt;div&gt;'s.&nbsp; In fact, most of the
+content is generated with Javascript.&nbsp; With their last major
+redesign, Facebook eliminated many of the explicit page reloads.&nbsp;
+Now they literally pull in the entire page with ajax and regenerate the
+markup.&nbsp; And a couple of weeks after I finished my greasemonkey
+script, they changed the interface again and broke it!</p>
+
+
+
+
+<p>But then I
+started really considering what apps like Facebook are trying to
+accomplish.&nbsp; They're task-oriented, not content oriented.&nbsp;
+Most of Facebook requires a user to be authenticated.&nbsp; fb is more
+concerned about people coming to the site, not robots.&nbsp; And even
+considering that, the public pages still manage to rank pretty high in
+Google.&nbsp; Search for <a href="http://www.google.com/search?q=marco+rogers">marco rogers</a>
+and you'll get my profile link as the first result.&nbsp; Even though
+the page is pretty much entirely generated with javascript. Today's web
+apps put the application first and the web second. Many of them are
+basically meant to be portable desktop apps. When was the last time you
+cared how the visual elements in MS Outlook were put together?</p>
+
+
+
+
+<p>Unless
+I miss my guess, the markup spit out by fb is probably tied pretty
+closely with some proprietary content framework they're using to
+generate the pages.&nbsp; And generating semantic markup with
+javascript is no mean feat.&nbsp; If you can get away with every
+element being a &lt;div&gt; or &lt;span&gt;, you're almost certainly
+doing yourself a favor.</p>
+
+
+
+
+<p>That's how I read the promise of Ext JS.</p>
+
+
+
+
+<blockquote>Ext JS is a cross-browser JavaScript library for building rich internet applications.</blockquote>
+
+
+
+
+<p>Ext
+JS is offering to do you that favor. You can build those complex
+applications with an interface that will be consistent in functionality
+as well as look and feel. As long as you're not worried about search
+findability. And if you're building a web application, you should
+really ask yourself that question sooner rather than later.</p>
+
+    <div class="links">Categories: <a href="../category/extjs.html">extjs</a>, <a href="../category/facebook.html">facebook</a>, <a href="../category/semantic-markup.html">semantic markup</a>, <a href="../category/stupid-dev-questions.html">stupid dev questions</a></div>
+    
+    <div id="comments">
+    <h3><span>9</span> Response<span>s</span> to this Article</h3>
+    <p class="links"><a href="does-a-complex-web-app-really-need-clean-markup.html#add_comment">leave a comment</a></p>
+    <ul class="xoxo comments">
+        <li class="comment e">
+            <span>Added by <span class="commenter">Your Name</span> on <span class="dateline">07-06-2009 1:34 PM</span></span>
+            
+            <p><p>Facebook also tends to suck for screen readers</p></p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Marco Rogers</span> on <span class="dateline">07-06-2009 2:36 PM</span></span>
+            
+            <p><p>True, and that's not really acceptable. But the question about accessibility in modern web apps should be answered separately I think.</p></p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">S.G. Chipman</span> on <span class="dateline">07-06-2009 3:54 PM</span></span>
+            
+            <p><p>It matters how the elements are put together because it matters for accessibility. Semantics and accessibility go hand in hand, and are very much a part of this question.<br/> <br/> Sacrificing something like that because you are too lazy or inexperienced a programmer to create a helper method that can easily create semantic elements instead of nested DIV after nested DIV is just lame and born of a fundamental lack of understanding of how plain 'ol hand written markup should be written.</p></p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Nick Campbell</span> on <span class="dateline">07-06-2009 4:52 PM</span></span>
+            
+            <p><p>@S.G. Chipman - I tend to agree with you in that semantics and accessibility go together. But, they don't always have to. You could do something like: http://www.w3.org/TR/wai-aria-practices/ and not have semantic markup but have it be accessible. <br/> <br/> That said, you can overwrite the generated html with ExtJS too by using XTemplates.</p></p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">Marco Rogers</span> on <span class="dateline">07-06-2009 5:20 PM</span></span>
+            
+            <p><p>@S.G. Chipman I knew I'd get ripped a new one for this. It's difficult to present a case that seems to advocate dismissing accessibility. But that's not where I was going with this at all. I think making a complex web app really usable for disabled users is a hard topic in itself. It won't be solved simply by outputting semantic markup, although that is a step in the right direction. And with that being the case, maybe it doesn't make sense to make that part of your primary development effort. Maybe it makes sense to have a separate engine that delivers specialized content for accessibility tools. Similar to delivering mobile-specific content. <br/> <br/>You know way more about accessible web apps than I do, so I would welcome your input if you think that's a ridiculous idea. I'm just not sure that requiring all generated markup to be semantic out of the gate is the only solution.</p></p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">steve</span> on <span class="dateline">07-07-2009 12:30 PM</span></span>
+            
+            <p><p>@Nick - sort of. For example, screen readers have the ability to scan a document for headings and lists and the like and allow the user to skip directly to that content. You can direct it to read all of the headings to you and then drop right down into the content that interests you, rather than the ponderous task of waiting for the screen reader to get to what you want on its own.<br/><br/>ARIA exists to lend semantics and accessibility to objects in a document that would otherwise have none via the role attribute. I'd say its best to use them both.<br/><br/>@Marco - I am a big fan of the concept of "One Web"; I don't agree with serving specialized content to any device if it can be at all avoided. Accessible, semantic markup isn't just good for people that use screen readers, its good for everyone.<br/><br/>Back to your original point -  other than being tied to a framework that outputs garbage markup, why exactly would someone shun markup the way it should be written for divitis? What are the benefits in your mind, specifically in regard to your statement that getting away with DIVs and SPANs is doing oneself a favor? How so?</p></p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">Marco Rogers</span> on <span class="dateline">07-07-2009 2:00 PM</span></span>
+            
+            <p><p>@steve - "why exactly would someone shun markup the way it should be written for divitis?" My comment on doing yourself a favor was specifically referring to generating markup with javascript. It's not being "written" it's being generated.  ExtJS, Facebook and many other client-heavy apps do this a lot and unless you do a lot of planning or write a lot of helper code, it's not easy to make everything nicely semantic.  There are js templating solutions, but all of the ones I've tried probably wouldn't meet the performance requirements of an app like fb.</p>
+ 
+<p>As for the idea of "One Web", I haven't really bought into that.  Mobile Safari on the iPhone is pretty nice at rendering full traditional web pages.  But it's always a lot nicer when I get an iPhone friendly version that is tailored towards the limitations of the device I'm using.  For instance, hiding images and irrelevant side content and simplifying any task workflow (Try ordering a pizza from papajohns.com. They're iPhone version is awesome!)  I guess the question I'm asking is what is the downside of taking this route for accessibility as well?</p></p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Jonny</span> on <span class="dateline">01-21-2010 8:28 PM</span></span>
+            
+            <p>We've been breaking the web for decades, that's old news.  Ext-JS is one of the latest attempts to make the web platform feel more like the desktop application experience.  Browsers just quite frankly aren't designed for this, but I hope that will change in time.
+
+<br/>
+
+
+<br/>
+That said, I think the biggest concern is the carbon-footprint that Ext-JS is responsible for.  With all those HTML elements and Javascript-driven UI, machines probably consume tons more electricity than an equivalent desktop application would.  It's time someone worked on a web-protocol specifically designed for interactive web applications.  Enough is enough.</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">new louis vuitton bags</span> on <span class="dateline">12-25-2013 9:35 AM</span></span>
+            
+            <p>louis vuitton outlet store online
+
+<br/>
+[url=http://www.chs73.org/louisvuitton/new-louis-vuitton-bags.html]new louis vuitton bags[/url]</p>
+        </li>
+    </ul>
+    
+    <h3 id="add_comment">Add Your Comment</h3>
+    <form action="/blog/07-05-2009/does-a-complex-web-app-really-need-clean-markup/submit_comment" id="comment_form" method="post">
+        
+        
+        
+        
+        <fieldset class="anon">
+            <input checked="checked" class="noborder" id="comment_type1" name="comment_type" type="hidden" value="Anonymous"/><!-- <label for="comment_type1">Anonymous</label> -->
+            <div>
+                <input id="comment_name" name="comment_name" onblur="populate_name(this)" onfocus="clear_name(this)" type="text" value="Your Name"/>
+                <input id="comment_email" name="comment_email" onblur="populate_email(this)" onfocus="clear_email(this)" type="text" value="Your Email"/>
+            </div>
+        </fieldset>
+<!--
+        <fieldset class="openid">
+            <input type="radio" id="comment_type2" class="noborder" name="comment_type" value="OpenID" /><label for="comment_type2">OpenID</label>
+            <div>
+                <input type="text" id="comment_openid" name="comment_openid" value="Your OpenID Identity" onfocus="clear_openid(this)" onblur="populate_openid(this)" /> <img tal:attr="src: app.getStaticMountpoint('images/openid-logo.gif')" alt="OpenID logo" /> 
+            </div>
+        </fieldset>
+-->
+        <fieldset>
+            <textarea cols="50" id="comment_msg" name="comment_msg" onblur="populate_comments(this)" onfocus="clear_comments(this)" rows="10">Your Comments</textarea>
+        </fieldset>
+        <fieldset>
+            <input class="submit" type="Submit" value="Submit Your Comment"/>
+        </fieldset>
+    </form>
+    
+</div>
+</div>
+
+                <div id="sidebar">
+
+    <link href="http://calendaraboutnothing.com/styles/widget/seinfeld-badge.css" media="screen, projection" rel="stylesheet" type="text/css"/>
+
+    <div class="seinfeld-badge user-polotek">
+        <h2>I like open software</h2>
+        <p><a href="http://calendaraboutnothing.com/~polotek" rel="me">Calendar About Nothing</a> tracks my public contributions on <a href="http://github.com/polotek">GitHub</a>.</p>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+
+    <script src="http://calendaraboutnothing.com/javascripts/widget/seinfeld-badge.js" type="text/javascript"></script>
+
+    <ul class="xoxo">
+        <li id="categories">
+            <h3>Categories</h3>
+            <dl class="xoxo_desc">
+                <dt>description</dt>
+                <dd>List of Categories for Posts</dd>
+            </dl>
+            <ul>
+                <li><a href="../category/axiom-stack.html">axiom stack (2)</a></li><li><a href="../category/blog-updates.html">blog updates (2)</a></li><li><a href="../category/browsers.html">browsers (1)</a></li><li><a href="../category/content-management.html">content management (2)</a></li><li><a href="../category/databases.html">databases (1)</a></li><li><a href="../category/e4x.html">e4x (1)</a></li><li><a href="../category/exception-handling.html">exception handling (1)</a></li><li><a href="../category/extjs.html">extjs (1)</a></li><li><a href="../category/facebook.html">facebook (2)</a></li><li><a href="../category/firefox.html">firefox (2)</a></li><li><a href="../category/firefox-add-ons.html">firefox add-ons (2)</a></li><li><a href="../category/google-chrome.html">google chrome (1)</a></li><li><a href="../category/greasemonkey.html">greasemonkey (2)</a></li><li><a href="../category/imho.html">imho (3)</a></li><li><a href="../category/java.html">java (1)</a></li><li><a href="../category/javascript.html">javascript (4)</a></li><li><a href="../category/libxmljs.html">libxmljs (1)</a></li><li><a href="../category/markdown.html">markdown (1)</a></li><li><a href="../category/narwhal.html">narwhal (1)</a></li><li><a href="../category/nodejs.html">node.js (2)</a></li><li><a href="../category/oodb.html">OODB (1)</a></li><li><a href="../category/opinions.html">opinions (1)</a></li><li><a href="../category/rdbms.html">RDBMS (1)</a></li><li><a href="../category/safari.html">safari (1)</a></li><li><a href="../category/semantic-markup.html">semantic markup (1)</a></li><li><a href="../category/serverjs.html">serverjs (1)</a></li><li><a href="../category/stupid-dev-questions.html">stupid dev questions (2)</a></li><li><a href="../category/uneducated-opinions.html">uneducated opinions (1)</a></li><li><a href="../category/wysiwyg.html">wysiwyg (1)</a></li>
+            </ul>
+        </li>
+        <li id="recent">
+            <h3>Recent Entries</h3>
+            <dl class="xoxo_desc">
+                <dt>title</dt>
+                <dd>Recent Posts</dd>
+                <dt>description</dt>
+                <dd>Most Recent Posts by Date Published</dd>
+            </dl>
+            <ul>
+                <li><a href="../10-10-2011/a-quick-rant-on-web-development-and-elegant-solutions.html">A quick rant on web development and elegant solutions</a></li><li><a href="../01-22-2011/nodejs-community-could-use-some-tlc.html">The Node.js Community Could Use Some TLC</a></li><li><a href="../08-04-2010/a-quick-project-to-create-an-ebook-from-html.html">A quick project to create an ebook from html</a></li><li><a href="../06-17-2010/updating-libxmljs-for-nodejs-or-how-to-suck-less-at-google-v8.html">Updating libxmljs on node.js: or, how to suck less at Google v8</a></li><li><a href="../02-24-2010/creating-a-blog-ill-actually-use.html">Creating a Blog I'll Actually Use</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+            </div>
+
+            <div id="footer">
+                <p class="devinfo">Powered by <a href="http://www.axiomstack.com">Axiom&#174; Stack</a></p>
+            </div>
+
+        </div>
+        <script src="../static/js/scripts.js" type="text/javascript"></script>
+        <script src="http://www.google.com/jsapi" type="text/javascript"></script>
+        <script type="text/javascript">
+            //<![CDATA[
+            google.load("jquery", "1.3");
+            //]]>
+        </script>
+        <div id="ga">
+    <script type="text/javascript">
+        //<![CDATA[
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        //]]>
+    </script>
+    <script type="text/javascript">
+        //<![CDATA[
+        try {
+        var pageTracker = _gat._getTracker("UA-6862661-1");
+        pageTracker._trackPageview();
+        } catch(err) {}
+        //]]>
+    </script>
+</div>
+        
+
+
+    </body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:tal="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="CODE [sic] Contributing to the web technology conversation" name="description"/>
+        <meta content="Marco Rogers" name="author"/>
+        <title>Generating Abstract Text from HTML content | CODE [sic]</title>
+
+        <link href="../static/css/style.css" rel="stylesheet" type="text/css"/>
+        
+
+        <link href="../rss.rss" rel="alternate" title="CODE [sic] RSS 2.0 Content" type="application/rss+xml"/>
+    </head>
+    <body class="post">
+        <div id="wrapper">
+
+            <div id="header">
+    <div class="container">
+        
+        <h2 id="blog_title"><a href="../index.html">CODE [<em>sic</em>]</a></h2>
+        <p class="desc">Contributing to the web technology conversation</p>
+        <div id="search">
+            <form action="/blog/blog_search" method="get">
+                <fieldset>
+                    <label for="query">Search</label>
+                    <input id="query" name="query" type="text"/>
+                    <input class="submit" type="submit" value="Go"/>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+            <div id="access">
+    <div class="skip_link"><a href="generating-abstract-text-from-html-content.html#content" title="Skip navigation to the content">Skip to content</a></div>
+    <div id="menu">
+        <ul>
+            <li><a href="../index.html" title="Home">Home</a></li>
+            <li><a href="../about.html" title="About">About</a></li>
+        </ul>
+    </div>
+</div>
+
+            <div id="container">
+
+  <!--[if lt IE 7]>  <div style='margin:20px 0; border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='generating-abstract-text-from-html-content.html#' onclick='javascript:this.parentNode.parentNode.style.display='none'; return false;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>    <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>      <div style='width: 75px; float: left;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>      <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>You are using an outdated browser</div>        <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>For a better experience using this site, please upgrade to a modern web browser.</div>      </div>      <div style='width: 75px; float: left;'><a href='http://www.firefox.com' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>      <div style='width: 75px; float: left;'><a href='http://www.browserforthebetter.com/download.html' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-ie8.jpg' style='border: none;' alt='Get Internet Explorer 8'/></a></div>      <div style='width: 73px; float: left;'><a href='http://www.apple.com/safari/download/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>      <div style='float: left;'><a href='http://www.google.com/chrome' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-chrome.jpg' style='border: none;' alt='Get Google Chrome'/></a></div>    </div>  </div>  <![endif]-->
+
+                <div class="post" id="main_content">
+    <h1 class="post_title">Generating Abstract Text from HTML content</h1>
+    <span class="dateline">01-17-2009 2:11 AM</span>&#160;&#160;<span class="dateline"><a href="generating-abstract-text-from-html-content.html" title="Permanent Link: Generating Abstract Text from HTML content">permalink</a></span>
+
+    <p>In
+the world of online content management, we often want to introduce an
+article with a summary or abstract. The best example of this is the
+front page of a blog. You are presented with a list of the most recent
+articles with just a few paragraphs from each to get your interest. If
+want to continue you can click through and get the full text. Until
+recently, this blog didn't do that. It's a pretty important addition
+for me because my posts tend to run long, and my Home Page was getting
+pretty lengthy from just 3 posts. Here's the rundown on adding this
+feature.</p>
+
+
+<h2>A Few Requirements</h2>
+
+
+<p>First a little setup. Ideally
+this summary would be written specifically for the article and
+formatting nicely for it's space in the page. But since we live in the
+real world, we are generally given a few requirements for our system to
+make this easier. These are the general guidelines I used:</p>
+
+
+<ul>
+    <li>The summary should be generated automatically from the first paragraph of the full text (or first 2 or first 3 ...)</li>
+    <li>The summary should preserve any html that may be present (i.e. links, bullet points, etc).</li>
+    <li>The editor (me) should have the option of overriding this auto-generated summary with a custom one.</li></ul>
+
+
+<h2>The Tools</h2>
+
+
+<p>I wanted to see how simple I could make this with the system I'm using.  I have a few things going for me.</p>
+
+
+<p><strong>Almost all of the html content is available as well-formed xml.</strong>
+This means I can manipulate xml node objects instead of parsing text.
+Using text manipulation techniques to modify tag-based html has always
+bothered me. You end up either writing lots of code to handle lots of
+different possibilities or relying on complex regular expressions. By
+representing your content as xml (or in this case xhtml) you can be a
+little more confident that your output will still be well-formed and
+valid. And you can probably manage your changes with less code.</p>
+
+
+<p><strong>It's not DOM, it's e4x</strong>.
+This system is Java based. And yes, that's a good thing. Because that
+allows me to use the Rhino JavaScript Engine. In my opinion, javascript
+is a very nice scripting language. And working with it on the server as
+well as the client side is pretty nice. But more importantly, Rhino has
+<a href="http://en.wikipedia.org/wiki/E4X">native xml support through the e4x specification.</a>  E4x is much easier to work with than the <a href="http://www.w3cdom.org/">w3c DOM spec</a> or most language APIs for manipulating xml.  This makes some of the code look a little funky.</p>
+
+
+<p><strong>It's fully object oriented.</strong>
+This isn't really an objective advantage. I just prefer it. All it
+means in this case is that all of the functions I'm using are actually
+methods on an object. The object represents my blog article and I have
+access to any of the properties of the article through the "this"
+keyword. I'll talk about this more in the second part to <a href="http://marcorogers.com/blog/01-08-2009/why-you-should-be-using-an-object-database-instead-of-orm">Why you should be using an Object Database instead of ORM.</a></p>
+
+
+<h2>The Code</h2>
+
+
+<p>The first step is a function that returns the summary.  I'm calling it "abstract" and the first pass just returns it.</p>
+
+
+<pre><code><br/>function get_abstract(){<br/>    return this.post_abstract;<br/>}</code></pre>
+
+
+<p>This
+is just a getter function. But what if no abstract has been provided?
+Then we're ready to generate it. So let's update this a bit.</p>
+
+
+<pre><code><br/>function get_abstract(){<br/>    if(!this.post_abstract){<br/>        this.post_abstract = this.generate_abstract();<br/>    }<br/><br/>    return this.post_abstract;<br/>}</code></pre>
+
+
+<p>A
+few things to notice here. First off, the "post_abstract" is a property
+on our blog article. That means when we give it a value, it's
+automatically saved into our database. There's nothing else we need to
+do to be able to access the value of this property again later. Second,
+the "generate_abstract" function is also a method of our blog article,
+so it needs to be accessed through "this".</p>
+
+
+<p>So we've got a simple
+function that returns our abstract. And if there isn't one, it calls a
+function to get one. Let's check that out.</p>
+
+
+<pre><code><br/>function generate_abstract(){<br/>    var limit = 3;<br/>    var tmpbody = this.body.elements();<br/><br/>    var abs = &lt;&gt;&lt;/&gt;;<br/>    for(var idx in tmpbody){<br/>        abs += tmpbody[idx];<br/>        if(abs.length() &gt;= limit) break;<br/>    }<br/><br/>    return abs;<br/>}</code></pre>
+
+
+<p>This
+is a pretty simple function. It grabs all of the elements out of the
+body of the article. These are xml elements representing our xhtml.
+Probably paragraph tags. But we don't have to actually worry about it.
+It could be any tpye of element. We loop through these elements and
+grab as many as we need. Then we add them to our temporary abstract.
+This "abs" variable is the only place i this function where you see the
+e4x peeking through. We start by creating an empty <a href="https://developer.mozilla.org/en/Core_JavaScript_1.5_Guide/Processing_XML_with_E4X#Working_with_XMLLists">XMLList.</a>
+This is essentially an xml fragment with no top level container
+element. That describes the html body of our blog post perfectly.
+Here's a snippet of the html of this post.</p>
+
+
+<pre><code class="html">
+
+&lt;p&gt;In the world of online content management, we often want<br/>&#160;to introduce an article with a summary or abstract.  <br/>The best example of this is the front page of a blog.  <br/>You are presented with a list of the most recent articles <br/>with just a few paragraphs from each to get your interest. <br/> If want to continue you can click through and get the full<br/>&nbsp;text.  Until recently, this blog didn't do that.  Since I <br/>I haven't seen a lot of&lt;/p&gt;<br/>&lt;h2&gt;A Few Requirements&lt;/h2&gt;<br/>&lt;p&gt;First a little setup.  Ideally this summary would be <br/>written specifically for the article and formatting nicely <br/>for it's space in the page.  But since we live in the real <br/>world, we are generally given a few requirements for our <br/>system to make this easier.  These are the general guidelines<br/>&nbsp;I used:&lt;/p&gt;<br/>&lt;ul&gt;<br/>    &lt;li&gt;The summary should be generated automatically from <br/>the first paragraph of the full text (or first 2 or first <br/>3 ...)&lt;/li&gt;<br/>    &lt;li&gt;The summary should preserve any html that may be <br/>present (i.e. links, bullet points, etc).&lt;/li&gt;<br/>    &lt;li&gt;The editor (me) should have the option of overriding<br/>&nbsp;this auto-generated summary with a custom one.&lt;/li&gt;<br/>&lt;/ul&gt;<br/>...
+
+</code></pre>
+
+
+<p>So in our list of elements would look something like this <code class="inline_code">[&lt;p&gt;, &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, ...]</code>.
+We grab the first 3 to form our abstract, and return the new XMLList.
+That's our summary! The first 3 html elements from our body text. It
+gets saved on our blog article object so that any time we need it, it's
+available. No sense in doing this work every time. So that's it. I hope
+this has given you a little taste of how things work on this blog. This
+doesn't even scratch the surface of the power and convenience in using
+e4x to manipulate your content.</p>
+
+
+<p>Before we wrap, I have something
+to confess. The get_abstract code doesn't work. This was a weird gotcha
+moment in the e4x spec that I had to work around. When working with an
+XMLList, calling the elements() function doesn't return the first level
+children of the list. It returns the children of all of <em>those</em>
+elements. So instead of my &lt;p&gt; tags I got the text nodes inside
+them. Once I figured it out, there was a simple addition to account for
+it. Just wrap the body in a top level node first. Then the call to
+elements will give you the child nodes you expect. As an after-thought,
+I've included the ability to specify the length of the abstract. Here's
+the final version of the function.</p>
+
+
+<pre><code><br/>function generate_abstract(elimit){<br/>    var elimit = elimit || 3;<br/><br/>    var tmpbody = &lt;div&gt;&lt;/div&gt;;<br/>    tmpbody.appendChild(this.body);<br/>    tmpbody = tmpbody.elements();<br/><br/>    var abs = &lt;&gt;&lt;/&gt;;<br/>    for(var idx in tmpbody){<br/>        abs += tmpbody[idx];<br/>        if(abs.length() &gt;= limit) break;<br/>    }<br/> <br/>   return abs;<br/>}</code></pre>
+
+
+<p>Oh
+yeah, replacing the full text on the home page with the abstract text
+was pretty simple. Instead of calling this.body, call
+this.get_abstract. Pretty straight up. Enjoy the shorter home page.</p>
+
+    <div class="links">Categories: <a href="../category/blog-updates.html">blog updates</a>, <a href="../category/content-management.html">content management</a>, <a href="../category/e4x.html">e4x</a>, <a href="../category/javascript.html">javascript</a></div>
+    
+    <div id="comments">
+    <h3><span>7</span> Response<span>s</span> to this Article</h3>
+    <p class="links"><a href="generating-abstract-text-from-html-content.html#add_comment">leave a comment</a></p>
+    <ul class="xoxo comments">
+        <li class="comment e">
+            <span>Added by <span class="commenter">Dan</span> on <span class="dateline">01-21-2009 8:16 PM</span></span>
+            
+            <p>Why not just merge get_abstract and generate_abstract, and short circuit the function if an abstract exists?
+<br/>
+<br/>Alternatively, a different take on get_abstract:
+<br/>
+<br/>function get_abstract(){
+<br/>    return this.post_abstract?this.post_abstract:this.generate_abstract();
+<br/>}</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Asskicker</span> on <span class="dateline">01-21-2009 8:27 PM</span></span>
+            
+            <p>is the .elements issue with Rhino or just with the spec itself? Seems that having to create another body object is a bit memory intensive.</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">Marco</span> on <span class="dateline">01-21-2009 9:25 PM</span></span>
+            
+            <p>@Dan - That's actually the exact code I had for the first draft of this function.  But it never saves the output of generate_abstract.  So post_abstract would never actually be populated.  It would always fall through to calling the function.
+<br/>
+<br/>As to mergeing get/generate, I wanted to have generate_abstract as a separate function that could be called at any time without changing the actual saved version on the site.  Because post_abstract could also be a manually input version of the abstract.
+<br/>
+<br/>Thanks for the comment.</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Marco</span> on <span class="dateline">01-21-2009 9:32 PM</span></span>
+            
+            <p>@Masroor
+<br/>
+<br/>That is correct behavior per the spec.  There are a few oddities like that because they intentionally blur the line between and XML object with a top level element and an XMLList object which is a collection of nodes.  They have the same functions, but the functions may behave differently.
+<br/>
+<br/>I agree with what you're gonna say next, which is that's pretty stupid.
+<br/>
+<br/>In terms of it being memory intensive, you're probably right.  It'd be interesting to see what kind of memory footprint these e4x objects have.  Especially when being copied like I'm doing.
+<br/>
+<br/>But I'm a big fan of avoiding premature optimization.  And I didn't see a sensible way around this hole in the spec.  So until this blog starts getting a ton of traffic, I doubt I'll worry about it too much.
+<br/>
+<br/>Thanks</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">Dan</span> on <span class="dateline">01-22-2009 9:34 PM</span></span>
+            
+            <p>@Marco: ZOMG You are right!
+<br/>But I still think they ought be merged.</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Dan</span> on <span class="dateline">01-22-2009 9:36 PM</span></span>
+            
+            <p>@Marco: I just changed my mind after reading the rest of your comment.</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">ElenaLisvato</span> on <span class="dateline">08-04-2009 5:22 PM</span></span>
+            
+            <p>I don’t usually reply to posts but I will in this case. I’ve been experiencing this very same problem with a new WordPress installation of mine. I’ve spent weeks calibrating and getting it ready when all of a sudden… I cannot delete any content. It’s a workaround that, although isn’t perfect, does the trick so thanks! I really hope this problem gets solved properly asap.</p>
+        </li>
+    </ul>
+    
+    <h3 id="add_comment">Add Your Comment</h3>
+    <form action="/blog/01-16-2009/generating-abstract-text-from-html-content/submit_comment" id="comment_form" method="post">
+        
+        
+        
+        
+        <fieldset class="anon">
+            <input checked="checked" class="noborder" id="comment_type1" name="comment_type" type="hidden" value="Anonymous"/><!-- <label for="comment_type1">Anonymous</label> -->
+            <div>
+                <input id="comment_name" name="comment_name" onblur="populate_name(this)" onfocus="clear_name(this)" type="text" value="Your Name"/>
+                <input id="comment_email" name="comment_email" onblur="populate_email(this)" onfocus="clear_email(this)" type="text" value="Your Email"/>
+            </div>
+        </fieldset>
+<!--
+        <fieldset class="openid">
+            <input type="radio" id="comment_type2" class="noborder" name="comment_type" value="OpenID" /><label for="comment_type2">OpenID</label>
+            <div>
+                <input type="text" id="comment_openid" name="comment_openid" value="Your OpenID Identity" onfocus="clear_openid(this)" onblur="populate_openid(this)" /> <img tal:attr="src: app.getStaticMountpoint('images/openid-logo.gif')" alt="OpenID logo" /> 
+            </div>
+        </fieldset>
+-->
+        <fieldset>
+            <textarea cols="50" id="comment_msg" name="comment_msg" onblur="populate_comments(this)" onfocus="clear_comments(this)" rows="10">Your Comments</textarea>
+        </fieldset>
+        <fieldset>
+            <input class="submit" type="Submit" value="Submit Your Comment"/>
+        </fieldset>
+    </form>
+    
+</div>
+</div>
+
+                <div id="sidebar">
+
+    <link href="http://calendaraboutnothing.com/styles/widget/seinfeld-badge.css" media="screen, projection" rel="stylesheet" type="text/css"/>
+
+    <div class="seinfeld-badge user-polotek">
+        <h2>I like open software</h2>
+        <p><a href="http://calendaraboutnothing.com/~polotek" rel="me">Calendar About Nothing</a> tracks my public contributions on <a href="http://github.com/polotek">GitHub</a>.</p>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+
+    <script src="http://calendaraboutnothing.com/javascripts/widget/seinfeld-badge.js" type="text/javascript"></script>
+
+    <ul class="xoxo">
+        <li id="categories">
+            <h3>Categories</h3>
+            <dl class="xoxo_desc">
+                <dt>description</dt>
+                <dd>List of Categories for Posts</dd>
+            </dl>
+            <ul>
+                <li><a href="../category/axiom-stack.html">axiom stack (2)</a></li><li><a href="../category/blog-updates.html">blog updates (2)</a></li><li><a href="../category/browsers.html">browsers (1)</a></li><li><a href="../category/content-management.html">content management (2)</a></li><li><a href="../category/databases.html">databases (1)</a></li><li><a href="../category/e4x.html">e4x (1)</a></li><li><a href="../category/exception-handling.html">exception handling (1)</a></li><li><a href="../category/extjs.html">extjs (1)</a></li><li><a href="../category/facebook.html">facebook (2)</a></li><li><a href="../category/firefox.html">firefox (2)</a></li><li><a href="../category/firefox-add-ons.html">firefox add-ons (2)</a></li><li><a href="../category/google-chrome.html">google chrome (1)</a></li><li><a href="../category/greasemonkey.html">greasemonkey (2)</a></li><li><a href="../category/imho.html">imho (3)</a></li><li><a href="../category/java.html">java (1)</a></li><li><a href="../category/javascript.html">javascript (4)</a></li><li><a href="../category/libxmljs.html">libxmljs (1)</a></li><li><a href="../category/markdown.html">markdown (1)</a></li><li><a href="../category/narwhal.html">narwhal (1)</a></li><li><a href="../category/nodejs.html">node.js (2)</a></li><li><a href="../category/oodb.html">OODB (1)</a></li><li><a href="../category/opinions.html">opinions (1)</a></li><li><a href="../category/rdbms.html">RDBMS (1)</a></li><li><a href="../category/safari.html">safari (1)</a></li><li><a href="../category/semantic-markup.html">semantic markup (1)</a></li><li><a href="../category/serverjs.html">serverjs (1)</a></li><li><a href="../category/stupid-dev-questions.html">stupid dev questions (2)</a></li><li><a href="../category/uneducated-opinions.html">uneducated opinions (1)</a></li><li><a href="../category/wysiwyg.html">wysiwyg (1)</a></li>
+            </ul>
+        </li>
+        <li id="recent">
+            <h3>Recent Entries</h3>
+            <dl class="xoxo_desc">
+                <dt>title</dt>
+                <dd>Recent Posts</dd>
+                <dt>description</dt>
+                <dd>Most Recent Posts by Date Published</dd>
+            </dl>
+            <ul>
+                <li><a href="../10-10-2011/a-quick-rant-on-web-development-and-elegant-solutions.html">A quick rant on web development and elegant solutions</a></li><li><a href="../01-22-2011/nodejs-community-could-use-some-tlc.html">The Node.js Community Could Use Some TLC</a></li><li><a href="../08-04-2010/a-quick-project-to-create-an-ebook-from-html.html">A quick project to create an ebook from html</a></li><li><a href="../06-17-2010/updating-libxmljs-for-nodejs-or-how-to-suck-less-at-google-v8.html">Updating libxmljs on node.js: or, how to suck less at Google v8</a></li><li><a href="../02-24-2010/creating-a-blog-ill-actually-use.html">Creating a Blog I'll Actually Use</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+            </div>
+
+            <div id="footer">
+                <p class="devinfo">Powered by <a href="http://www.axiomstack.com">Axiom&#174; Stack</a></p>
+            </div>
+
+        </div>
+        <script src="../static/js/scripts.js" type="text/javascript"></script>
+        <script src="http://www.google.com/jsapi" type="text/javascript"></script>
+        <script type="text/javascript">
+            //<![CDATA[
+            google.load("jquery", "1.3");
+            //]]>
+        </script>
+        <div id="ga">
+    <script type="text/javascript">
+        //<![CDATA[
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        //]]>
+    </script>
+    <script type="text/javascript">
+        //<![CDATA[
+        try {
+        var pageTracker = _gat._getTracker("UA-6862661-1");
+        pageTracker._trackPageview();
+        } catch(err) {}
+        //]]>
+    </script>
+</div>
+        <div id="ch">
+    <style type="text/css">@import url('../static/ch/styles/default.css');</style>
+    <script src="../static/ch/highlight.pack.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript">
+        //<![CDATA[
+        $(document).ready(function(){
+            hljs.initHighlighting();
+        });
+        //]]>
+    </script>
+</div>
+
+
+    </body>
+</html>

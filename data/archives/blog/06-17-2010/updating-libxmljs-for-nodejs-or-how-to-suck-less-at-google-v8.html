@@ -1,0 +1,525 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:tal="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="CODE [sic] Contributing to the web technology conversation" name="description"/>
+        <meta content="Marco Rogers" name="author"/>
+        <title>Updating libxmljs on node.js: or, how to suck less at Google v8 | CODE [sic]</title>
+
+        <link href="../static/css/style.css" rel="stylesheet" type="text/css"/>
+        
+
+        <link href="../rss.rss" rel="alternate" title="CODE [sic] RSS 2.0 Content" type="application/rss+xml"/>
+    </head>
+    <body class="post">
+        <div id="wrapper">
+
+            <div id="header">
+    <div class="container">
+        
+        <h2 id="blog_title"><a href="../index.html">CODE [<em>sic</em>]</a></h2>
+        <p class="desc">Contributing to the web technology conversation</p>
+        <div id="search">
+            <form action="/blog/blog_search" method="get">
+                <fieldset>
+                    <label for="query">Search</label>
+                    <input id="query" name="query" type="text"/>
+                    <input class="submit" type="submit" value="Go"/>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+            <div id="access">
+    <div class="skip_link"><a href="updating-libxmljs-for-nodejs-or-how-to-suck-less-at-google-v8.html#content" title="Skip navigation to the content">Skip to content</a></div>
+    <div id="menu">
+        <ul>
+            <li><a href="../index.html" title="Home">Home</a></li>
+            <li><a href="../about.html" title="About">About</a></li>
+        </ul>
+    </div>
+</div>
+
+            <div id="container">
+
+  <!--[if lt IE 7]>  <div style='margin:20px 0; border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='updating-libxmljs-for-nodejs-or-how-to-suck-less-at-google-v8.html#' onclick='javascript:this.parentNode.parentNode.style.display='none'; return false;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>    <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>      <div style='width: 75px; float: left;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>      <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>You are using an outdated browser</div>        <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>For a better experience using this site, please upgrade to a modern web browser.</div>      </div>      <div style='width: 75px; float: left;'><a href='http://www.firefox.com' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>      <div style='width: 75px; float: left;'><a href='http://www.browserforthebetter.com/download.html' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-ie8.jpg' style='border: none;' alt='Get Internet Explorer 8'/></a></div>      <div style='width: 73px; float: left;'><a href='http://www.apple.com/safari/download/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>      <div style='float: left;'><a href='http://www.google.com/chrome' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-chrome.jpg' style='border: none;' alt='Get Google Chrome'/></a></div>    </div>  </div>  <![endif]-->
+
+                <div class="post" id="main_content">
+    <h1 class="post_title">Updating libxmljs on node.js: or, how to suck less at Google v8</h1>
+    <span class="dateline">06-17-2010 5:20 AM</span>&#160;&#160;<span class="dateline"><a href="updating-libxmljs-for-nodejs-or-how-to-suck-less-at-google-v8.html" title="Permanent Link: Updating libxmljs on node.js: or, how to suck less at Google v8">permalink</a></span>
+
+    <p>I just released the latest version of libxmljs for node.js
+<a href="http://github.com/polotek/libxmljs">http://github.com/polotek/libxmljs/tree/0.4.0</a>.  This is a major release that doesn't have many
+visible changes but lots of stuff happened under the hood.  I figured
+it'd be good to describe some of my struggles with Google v8</p>
+<h2>Debugging Segmentation Faults</h2>
+<p>Previous versions of libxmljs were rife with segfaults that would pop
+up without warning. There are lots of reasons for this, but the most
+common had to do with not following best practices with the v8
+API.  V8 has this notion of Handles that are used to hold references
+to javascript objects in C/C++ space.  Among other things, this design
+decision gives v8 a nice way to keep track of js references and clean
+them up at the appropriate time.  A contrived example (assume v8 namespace).</p>
+<pre><code>Handle&lt;Number&gt;
+function Handle&lt;Number&gt;(int mynum) {
+    Handle&lt;Number&gt; jsNum = Number::New(mynum);
+    return jsNum;
+}
+</code></pre>
+<p>But there's a problem with the above example, and there was a lot of this
+in earlier versions of libxmljs. How does this number get
+clean up when you're done with it?  V8 recommends using a
+HandleScope to track local Handles within functions.  That way you can
+be sure they get cleaned up along with the function scope.</p>
+<pre><code>Handle&lt;Number&gt;
+function Handle&lt;Number&gt;(int mynum) {
+    HandleScope scope;
+    Handle&lt;Number&gt; jsNum = Number::New(mynum);
+    return jsNum;
+}
+</code></pre>
+<p>Ah, now your number will get cleaned up properly.  But wait... your
+number will get cleaned up properly! That means that after this
+function exits, that Number is gone. Poof. Cleaned up by v8. And if
+you try to use it, you get a segfault. Version 0.3.x has this
+incomplete implementation and I got lots of awesome bugs from the nice
+folks in the node.js community.</p>
+<p>So how do you properly use Handles but keep your returned object from
+getting freed?  You close the scope on the object.  Basically this
+causes the local scope to pass the Handle to the calling scope.
+Essentially let somebody else worry about it.</p>
+<pre><code>Handle&lt;Number&gt;
+function getJSNumber(int mynum) {
+    HandleScope scope;
+    Handle&lt;Number&gt; jsNum = Number::New(mynum);
+    return scope.Close(jsNum);
+}
+</code></pre>
+<p>This ensures that your Handle will stay viable until you pass it back
+to javascript space and use it.  And when you're done it'll get
+cleaned up as normal (e.g. when your script ends or you lose the
+reference to the number and it's garbage collected).  I had to find
+every instance of these unclosed scopes and apply them properly
+throughout libxmljs.  Pretty simple really, but if you're not aware of
+this, it'll cause you all sorts of headaches.</p>
+<p>Lesson: Use HandleScope inside any function dealing with v8 Handles
+and Close <em>every Handle that gets returned from the function</em>. This
+includes just returning primitive constructors.</p>
+<pre><code>Handle&lt;Number&gt;
+function getJSNumber(int mynum) {
+    HandleScope scope;
+    return Number::New(mynum);  // wrong! Number::New still
+                                // returns a Handle!
+}
+</code></pre>
+<h2>Making Sure Libxmljs Doesn't Devour All of Your Memory</h2>
+<p>This is a bigger deal and the real reason 0.4.0 took so long.  In
+earlier versions of libxmljs, the xml documents would never actually
+get cleaned up.  I had people creating huge xml/html docs in tight
+loops over and over again.  And they would watch the process memory
+climb until it was exhausted and then their app would crash.  Bad
+juju.  I know what you're thinking; "But javascript has garbage
+colleciton. What is this moron doing wrong".  An excellent question.
+Let's explore.</p>
+<p>V8 does in fact have a very nifty garbage collector and it works quite
+well.  The first problem, however, is that it's pretty lazy.  It
+doesn't run on a regular basis.  In fact it only runs when it damn
+well feels like it.  GC is expensive so the v8 team put in some fancy
+heuristics for determining when is a good time to do it.  At a high
+level, this boils down to "only GC if needed". So unless v8 sees that
+you're using a lot of memory, the GC won't run.</p>
+<p>So if I'm creating giant xml documents and then they're passing out of
+scope, why wouldn't v8 consider this a good time to take out the
+trash?  Well that's because of the second problem. V8 has no idea that
+the xml document memory exists.  You
+see libxmljs is literally a binding around the libxml2 library.  The
+vast majority of the memory allocated by this library is done by
+libxml.  The binding itself just provides a nice API for js to get at
+that xml memory.  Now's a good time for a diagram:</p>
+<div class="figure"><a href="../static/content/images/libxmljs_memory_spaces.jpg"><img alt="Figure 1: Diagram of libxmljs memory spaces" src="../static/content/images/libxmljs_memory_spaces.jpg" title="Diagram of libxmljs memory spaces"/></a><p class="caption">Conceptual illustration of separate memory spaces
+in a node process running libxmljs.</p></div>
+<p>Hopefully this diagram illustrates the problem. Only the memory in the
+orange and green boxes are managed by v8.  But these are just
+lightweight pointer classes around the c structs managed by libxml.
+So even when you're building up 100's of MBs or even GBs or memory, v8
+was only seeing a small percentage of that.</p>
+<p>The way to fix this was
+fairly straight-foward.  V8 gives you away to tell the GC to take that
+outside memory into account.  The function is called
+<em>V8::AdjustAmountOfExternalAllocatedMemory</em>, and just like it sounds,
+it gives us the ability to increment or decrement the amount of
+external memory that v8 is tracking.  Libxmljs now uses this function
+whenever new nodes are allocated or deallocated.  And the result is
+that the GC runs more often and cleans out your memory.</p>
+<p>The great thing about this upgrade is that it works within the
+v8 garbage collection heuristics.  If you're not usuing a lot of
+memory, you won't see much GC overhead.  If you are, and libxmljs is
+devouring your RAM, v8 will kick in and get it back to you.</p>
+<h2>One Annoyance To Be Aware Of</h2>
+<p>I hope this info is useful to folks having trouble with node addons.
+For those using libxmljs, there are a few side effects that look
+worrying but really aren't.  I had to enable the custom memory management functions in
+libxml2 in order to be aware of how much memory is being used at any
+given time.  For some reason this causes some random error messages to
+be printed whe the node process exits.  It looks something like this:</p>
+<pre>Memory tag error occurs :0x100701788 
+     bye
+xmlMemFree(1007017B0) error
+xmlMallocBreakpoint reached on block 0
+Memory tag error occurs :0x100701798 
+     bye
+xmlMemFree(1007017C0) error
+xmlMallocBreakpoint reached on block 0
+Memory tag error occurs :0x100701418 
+     bye
+xmlMemFree(100701440) error
+xmlMallocBreakpoint reached on block 0
+</pre>
+<p>It's annoying, but can be safely ignored.</p>
+
+    <div class="links">Categories: <a href="../category/libxmljs.html">libxmljs</a>, <a href="../category/nodejs.html">node.js</a></div>
+    
+    <div id="comments">
+    <h3><span>15</span> Response<span>s</span> to this Article</h3>
+    <p class="links"><a href="updating-libxmljs-for-nodejs-or-how-to-suck-less-at-google-v8.html#add_comment">leave a comment</a></p>
+    <ul class="xoxo comments">
+        <li class="comment e">
+            <span>Added by <span class="commenter">Sudar</span> on <span class="dateline">06-20-2010 1:18 PM</span></span>
+            
+            <p>Hi,
+
+<br/>
+
+
+<br/>
+Thanks for the update. I tried to compile the latest version on Mac OSx, but I am not able to. I have posted the error message here
+
+<br/>
+
+
+<br/>
+http://github.com/polotek/libxmljs/issues#issue/14
+
+<br/>
+
+
+<br/>
+It would be nice if you could let me know how to fix it. Thanks!</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Sannis</span> on <span class="dateline">09-07-2010 1:44 PM</span></span>
+            
+            <p>Thanks for your article, V8 docs is very simple for developers.</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">Subbu Allamaraju</span> on <span class="dateline">04-13-2011 9:42 PM</span></span>
+            
+            <p>Thanks for the explanation of the warnings. But is there a way to turn off by default?</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">huntfisherr</span> on <span class="dateline">04-20-2012 10:26 AM</span></span>
+            
+            <p>Дикий гусь тушеный -  взято с www.fisherhunter.ru/kyhnia/bluda-iz-pticy/bluda-iz-dikogo-gysia/dikii-gys-tyshenyi.html
+
+<br/>
+  
+
+<br/>
+  
+
+<br/>
+сами смотрите</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">Arlen</span> on <span class="dateline">05-16-2012 1:41 PM</span></span>
+            
+            <p>Pretty late to the party, but the second code excerpt seems wrong. It doesn't differ from the first in any way other than the fact that you've added the HandleScope; but it's not used, and so the cleanup behaviour relating to jsNum surely won't change?</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Marco Rogers</span> on <span class="dateline">05-17-2012 6:28 AM</span></span>
+            
+            <p>@Arlen No you have to know a little more about Handles and scopes. A HandleScope is a construct in v8 that explicitly manages the lifetime of js Handles. A Handle always belongs to a scope. If you don't create a scope it defaults to the root scope. By creating a scope in the function, all Handle creation is automatically tracked by that scope under the covers. I know it seems odd, I'm still not sure about the C++ magic myself. But when the function ends and that scope is deallocated, it'll also make sure any Handles created within this scope get cleaned up. Unless you close them and return them down the stack.</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">Bridget</span> on <span class="dateline">10-27-2012 12:14 PM</span></span>
+            
+            <p>Gingko Biloba is a well known remedy for iimorvpng circulation all over the body. Better circulation in the brain is what should improve memory and mental function. In males, it can be used as a kind of aphrodisiac, since better circulation in the genitals in some cases will be seen as a better erection. Gingko should be used for three months in a row, then should not be taken for another three months and so on. I wouldn't not know about gingko and breastfeeding, though.</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Bridget</span> on <span class="dateline">10-27-2012 12:14 PM</span></span>
+            
+            <p>Gingko Biloba is a well known remedy for iimorvpng circulation all over the body. Better circulation in the brain is what should improve memory and mental function. In males, it can be used as a kind of aphrodisiac, since better circulation in the genitals in some cases will be seen as a better erection. Gingko should be used for three months in a row, then should not be taken for another three months and so on. I wouldn't not know about gingko and breastfeeding, though.</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">Bridget</span> on <span class="dateline">10-27-2012 12:14 PM</span></span>
+            
+            <p>Gingko Biloba is a well known remedy for iimorvpng circulation all over the body. Better circulation in the brain is what should improve memory and mental function. In males, it can be used as a kind of aphrodisiac, since better circulation in the genitals in some cases will be seen as a better erection. Gingko should be used for three months in a row, then should not be taken for another three months and so on. I wouldn't not know about gingko and breastfeeding, though.</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Pharmg372</span> on <span class="dateline">01-29-2013 10:04 PM</span></span>
+            
+            <p>Hello! fcegaae interesting fcegaae site! I'm really like it! Very, very fcegaae good!</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">Pharmd410</span> on <span class="dateline">01-29-2013 10:04 PM</span></span>
+            
+            <p>Very nice site!</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Jamika</span> on <span class="dateline">08-06-2013 8:24 AM</span></span>
+            
+            <p>Thankfulness to my father who shared with me on the topic of this website, 
+
+<br/>
+this weblog is really amazing.</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">yzrhwpbnsc</span> on <span class="dateline">12-25-2013 1:03 PM</span></span>
+            
+            <p>Updating libxmljs on node.js: or, how to suck less at Google v8 | CODE [sic]
+
+<br/>
+[url=http://www.g4vpo99innd5k183z83pkx4z02i5a701s.org/]uyzrhwpbnsc[/url]
+
+<br/>
+<a href="http://www.g4vpo99innd5k183z83pkx4z02i5a701s.org/">ayzrhwpbnsc</a>
+
+
+<br/>
+yzrhwpbnsc http://www.g4vpo99innd5k183z83pkx4z02i5a701s.org/
+
+<br/></p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">louis vuitton shoes men</span> on <span class="dateline">12-25-2013 1:33 PM</span></span>
+            
+            <p>cheap nba snapbacks
+
+<br/>
+ 
+<a href="http://www.glenbenson.com/louis-vuitton/louis-vuitton-shoes-men.html">louis vuitton shoes men</a></p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">ルイヴィトン セカンドバッグ ダミエ</span> on <span class="dateline">12-25-2013 2:50 PM</span></span>
+            
+            <p>Updating libxmljs on node.js: or, how to suck less at Google v8 | CODE [sic]
+
+<br/>
+<a href="http://www.calicraft.co.za/images/newbalance/4476.html">ニューバランス Running Style</a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/6580.html">ナイキゴルフ 遠藤製作所</a>
+
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/3189.html"><strong>ニューバランス レディース スニーカー M1400</strong></a>
+
+
+<br/>
+<a href="http://www.ezefloridavilla.com/images/newbalance/1377.html"><strong>ニューバランス996 23センチ</strong></a>
+
+
+<br/>
+<a href="http://www.soil-assessment-cone-penetrometer.co.uk/images/newbalance/1548.html">ニューバランス m576 イギリス</a>
+
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/1709.html">new balance 574 とは</a>
+
+
+<br/>
+<a href="http://www.kdvjolie.nl/documenten/louisvuitton/102.html">ルイヴィトン 財布 定価</a>
+
+
+<br/>
+<a href="http://www.ezefloridavilla.com/images/newbalance/683.html"><strong>New Balance レディーススニーカー</strong></a>
+
+
+<br/>
+<a href="http://www.durgabaideshmukhcollege.org/images/ugg/colorful-uggs.html">colorful uggs</a>
+
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/758.html">ニューバランス 2013 新作 レディース</a>
+
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/535.html"><strong>new balance 種類</strong></a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/5760.html">ナイキ cm クラシック</a>
+
+
+<br/>
+<a href="http://www.soil-assessment-cone-penetrometer.co.uk/images/newbalance/225.html">ニューバランス レオパード Abc</a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/5158.html">ナイキ ヴィンテージ ランニング</a>
+
+
+<br/>
+<a href="http://www.alhanane3.com/images/nike/3261.html">ナイキ エアフォース ワイズ</a>
+
+
+<br/>
+<a href="http://www.blufing.com/images/nike/2122.html">nike ダンク ミッド</a>
+
+
+<br/>
+<a href="http://www.casaderetiroespiritual.com/images/chanel/jobs-at-chanel.html">jobs at chanel</a>
+
+
+<br/>
+<a href="http://www.everafterimages.com/images/beats/monster-beats-by.html">MONSTER BEATS BY</a>
+
+
+<br/>
+<a href="http://www.larvikimp.no/miljo/louisvuitton/954.html">ルイヴィトン 限定バッグ</a>
+
+
+<br/>
+<a href="http://www40.tok2.com/home/jyonan/honey/honey.cgi/honey.cgi"><strong>http://www40.tok2.com/home/jyonan/honey/honey.cgi/honey.cgi</strong></a>
+
+
+<br/>
+<a href="http://www.amsonnenbichl.de/formular/louisvuitton/1724.html"><strong>ルイ ヴィトン キーケース 定価</strong></a>
+
+
+<br/>
+<a href="http://www.soil-assessment-cone-penetrometer.co.uk/images/newbalance/4136.html">ニューバランス 立川</a>
+
+
+<br/>
+<a href="http://www.durgabaideshmukhcollege.org/images/chanel/cheap-chanel-makeup.html"><strong>cheap chanel makeup</strong></a>
+
+
+<br/>
+<a href="http://www.amsonnenbichl.de/formular/louisvuitton/690.html">ルイヴィトン 新作 トート</a>
+
+
+<br/>
+<a href="http://www.haidenthaler.com/haidenthaler_htm_files/louisvuitton/601.html">ルイヴィトン 長財布 メンズ</a>
+
+
+<br/>
+<a href="http://www.haidenthaler.com/haidenthaler_htm_files/louisvuitton/220.html"><strong>ルイヴィトン バッグ 透明</strong></a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/3191.html">ナイキ スニーカー ファッション</a>
+
+
+<br/>
+<a href="http://www.haidenthaler.com/haidenthaler_htm_files/louisvuitton/1342.html"><strong>ルイヴィトン セカンドバッグ ダミエ</strong></a>
+
+
+<br/></p>
+        </li>
+    </ul>
+    
+    <h3 id="add_comment">Add Your Comment</h3>
+    <form action="/blog/06-17-2010/updating-libxmljs-for-nodejs-or-how-to-suck-less-at-google-v8/submit_comment" id="comment_form" method="post">
+        
+        
+        
+        
+        <fieldset class="anon">
+            <input checked="checked" class="noborder" id="comment_type1" name="comment_type" type="hidden" value="Anonymous"/><!-- <label for="comment_type1">Anonymous</label> -->
+            <div>
+                <input id="comment_name" name="comment_name" onblur="populate_name(this)" onfocus="clear_name(this)" type="text" value="Your Name"/>
+                <input id="comment_email" name="comment_email" onblur="populate_email(this)" onfocus="clear_email(this)" type="text" value="Your Email"/>
+            </div>
+        </fieldset>
+<!--
+        <fieldset class="openid">
+            <input type="radio" id="comment_type2" class="noborder" name="comment_type" value="OpenID" /><label for="comment_type2">OpenID</label>
+            <div>
+                <input type="text" id="comment_openid" name="comment_openid" value="Your OpenID Identity" onfocus="clear_openid(this)" onblur="populate_openid(this)" /> <img tal:attr="src: app.getStaticMountpoint('images/openid-logo.gif')" alt="OpenID logo" /> 
+            </div>
+        </fieldset>
+-->
+        <fieldset>
+            <textarea cols="50" id="comment_msg" name="comment_msg" onblur="populate_comments(this)" onfocus="clear_comments(this)" rows="10">Your Comments</textarea>
+        </fieldset>
+        <fieldset>
+            <input class="submit" type="Submit" value="Submit Your Comment"/>
+        </fieldset>
+    </form>
+    
+</div>
+</div>
+
+                <div id="sidebar">
+
+    <link href="http://calendaraboutnothing.com/styles/widget/seinfeld-badge.css" media="screen, projection" rel="stylesheet" type="text/css"/>
+
+    <div class="seinfeld-badge user-polotek">
+        <h2>I like open software</h2>
+        <p><a href="http://calendaraboutnothing.com/~polotek" rel="me">Calendar About Nothing</a> tracks my public contributions on <a href="http://github.com/polotek">GitHub</a>.</p>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+
+    <script src="http://calendaraboutnothing.com/javascripts/widget/seinfeld-badge.js" type="text/javascript"></script>
+
+    <ul class="xoxo">
+        <li id="categories">
+            <h3>Categories</h3>
+            <dl class="xoxo_desc">
+                <dt>description</dt>
+                <dd>List of Categories for Posts</dd>
+            </dl>
+            <ul>
+                <li><a href="../category/axiom-stack.html">axiom stack (2)</a></li><li><a href="../category/blog-updates.html">blog updates (2)</a></li><li><a href="../category/browsers.html">browsers (1)</a></li><li><a href="../category/content-management.html">content management (2)</a></li><li><a href="../category/databases.html">databases (1)</a></li><li><a href="../category/e4x.html">e4x (1)</a></li><li><a href="../category/exception-handling.html">exception handling (1)</a></li><li><a href="../category/extjs.html">extjs (1)</a></li><li><a href="../category/facebook.html">facebook (2)</a></li><li><a href="../category/firefox.html">firefox (2)</a></li><li><a href="../category/firefox-add-ons.html">firefox add-ons (2)</a></li><li><a href="../category/google-chrome.html">google chrome (1)</a></li><li><a href="../category/greasemonkey.html">greasemonkey (2)</a></li><li><a href="../category/imho.html">imho (3)</a></li><li><a href="../category/java.html">java (1)</a></li><li><a href="../category/javascript.html">javascript (4)</a></li><li><a href="../category/libxmljs.html">libxmljs (1)</a></li><li><a href="../category/markdown.html">markdown (1)</a></li><li><a href="../category/narwhal.html">narwhal (1)</a></li><li><a href="../category/nodejs.html">node.js (2)</a></li><li><a href="../category/oodb.html">OODB (1)</a></li><li><a href="../category/opinions.html">opinions (1)</a></li><li><a href="../category/rdbms.html">RDBMS (1)</a></li><li><a href="../category/safari.html">safari (1)</a></li><li><a href="../category/semantic-markup.html">semantic markup (1)</a></li><li><a href="../category/serverjs.html">serverjs (1)</a></li><li><a href="../category/stupid-dev-questions.html">stupid dev questions (2)</a></li><li><a href="../category/uneducated-opinions.html">uneducated opinions (1)</a></li><li><a href="../category/wysiwyg.html">wysiwyg (1)</a></li>
+            </ul>
+        </li>
+        <li id="recent">
+            <h3>Recent Entries</h3>
+            <dl class="xoxo_desc">
+                <dt>title</dt>
+                <dd>Recent Posts</dd>
+                <dt>description</dt>
+                <dd>Most Recent Posts by Date Published</dd>
+            </dl>
+            <ul>
+                <li><a href="../10-10-2011/a-quick-rant-on-web-development-and-elegant-solutions.html">A quick rant on web development and elegant solutions</a></li><li><a href="../01-22-2011/nodejs-community-could-use-some-tlc.html">The Node.js Community Could Use Some TLC</a></li><li><a href="../08-04-2010/a-quick-project-to-create-an-ebook-from-html.html">A quick project to create an ebook from html</a></li><li><a href="updating-libxmljs-for-nodejs-or-how-to-suck-less-at-google-v8.html">Updating libxmljs on node.js: or, how to suck less at Google v8</a></li><li><a href="../02-24-2010/creating-a-blog-ill-actually-use.html">Creating a Blog I'll Actually Use</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+            </div>
+
+            <div id="footer">
+                <p class="devinfo">Powered by <a href="http://www.axiomstack.com">Axiom&#174; Stack</a></p>
+            </div>
+
+        </div>
+        <script src="../static/js/scripts.js" type="text/javascript"></script>
+        <script src="http://www.google.com/jsapi" type="text/javascript"></script>
+        <script type="text/javascript">
+            //<![CDATA[
+            google.load("jquery", "1.3");
+            //]]>
+        </script>
+        <div id="ga">
+    <script type="text/javascript">
+        //<![CDATA[
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        //]]>
+    </script>
+    <script type="text/javascript">
+        //<![CDATA[
+        try {
+        var pageTracker = _gat._getTracker("UA-6862661-1");
+        pageTracker._trackPageview();
+        } catch(err) {}
+        //]]>
+    </script>
+</div>
+        <div id="ch">
+    <style type="text/css">@import url('../static/ch/styles/default.css');</style>
+    <script src="../static/ch/highlight.pack.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript">
+        //<![CDATA[
+        $(document).ready(function(){
+            hljs.initHighlighting();
+        });
+        //]]>
+    </script>
+</div>
+
+
+    </body>
+</html>

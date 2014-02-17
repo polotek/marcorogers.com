@@ -1,0 +1,950 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:tal="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="CODE [sic] Contributing to the web technology conversation" name="description"/>
+        <meta content="Marco Rogers" name="author"/>
+        <title>A quick rant on web development and elegant solutions | CODE [sic]</title>
+
+        <link href="../../static/css/style.css" rel="stylesheet" type="text/css"/>
+        
+
+        <link href="../../rss.rss" rel="alternate" title="CODE [sic] RSS 2.0 Content" type="application/rss+xml"/>
+    </head>
+    <body class="post">
+        <div id="wrapper">
+
+            <div id="header">
+    <div class="container">
+        
+        <h2 id="blog_title"><a href="../../index.html">CODE [<em>sic</em>]</a></h2>
+        <p class="desc">Contributing to the web technology conversation</p>
+        <div id="search">
+            <form action="/blog/blog_search" method="get">
+                <fieldset>
+                    <label for="query">Search</label>
+                    <input id="query" name="query" type="text"/>
+                    <input class="submit" type="submit" value="Go"/>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+            <div id="access">
+    <div class="skip_link"><a href="index.html#content" title="Skip navigation to the content">Skip to content</a></div>
+    <div id="menu">
+        <ul>
+            <li><a href="../../index.html" title="Home">Home</a></li>
+            <li><a href="../../about.html" title="About">About</a></li>
+        </ul>
+    </div>
+</div>
+
+            <div id="container">
+
+  <!--[if lt IE 7]>  <div style='margin:20px 0; border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='index.html#' onclick='javascript:this.parentNode.parentNode.style.display='none'; return false;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>    <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>      <div style='width: 75px; float: left;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>      <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>You are using an outdated browser</div>        <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>For a better experience using this site, please upgrade to a modern web browser.</div>      </div>      <div style='width: 75px; float: left;'><a href='http://www.firefox.com' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>      <div style='width: 75px; float: left;'><a href='http://www.browserforthebetter.com/download.html' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-ie8.jpg' style='border: none;' alt='Get Internet Explorer 8'/></a></div>      <div style='width: 73px; float: left;'><a href='http://www.apple.com/safari/download/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>      <div style='float: left;'><a href='http://www.google.com/chrome' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-chrome.jpg' style='border: none;' alt='Get Google Chrome'/></a></div>    </div>  </div>  <![endif]-->
+
+                <div class="post" id="main_content">
+    <h1 class="post_title">A quick rant on web development and elegant solutions</h1>
+    <span class="dateline">10-10-2011 8:48 PM</span>&#160;&#160;<span class="dateline"><a href="../a-quick-rant-on-web-development-and-elegant-solutions.html" title="Permanent Link: A quick rant on web development and elegant solutions">permalink</a></span>
+
+    <p>I think the (over)reaction to Dart, both before and after it's announcement, shows 2 important things.</p>
+<ol><li>The web development community is&#160;desperately&nbsp;looking for an answer to it's problems.</li><li>No solution will be well received unless it involves real change across ALL the major browsers.</li></ol>
+<p>When confronted with these alternative language tools or even the new proposals for ES Harmony, people keep saying "syntax isn't the problem". I personally agree with that, but I'm also realizing it's the wrong mantra to respond with. Syntax is a problem. But it's not the most important one. It's not the one that's causing us the most pain right now. The real problem is browsers. Period.</p>
+<p>We want to do more. We want to bring kickass apps to the web. But we can't because we don't have the capabilities. Dart doesn't solve that problem. Better languages will ensure that more people can work on the web in the style that they're comfortable with. Better tools will ensure that we can push our current capabilities to the limit, faster and easier. But it doesn't give us new capabilities. Only an agreement between all browser vendors to make their products *better* can do that. Anything else is just a band-aid.</p>
+<p>I'm reminded of that twitter rant by Joe Hewitt a while back.</p>
+<p><em>"I want desperately to be a web developer again, but if I have to wait until 2020 for browsers to do what Cocoa can do in 2010, I won’t wait."</em></p>
+<p>That's the real issue. And meanwhile, introducing new languages has it's own challenges. We're fighting a big problem. But we're doing it by creating new ones. Maybe those new ones are&nbsp;preferable&nbsp;to some people. But as programmers, I think we can do better. Part of our job is to look for the most elegant solution to a set of problems. One that is simple, powerful, appeals to the widest range of people and is as forward thinking as possible. Why haven't we been able to do that in this situation?</p>
+<p>To me, that solution is for browser vendors to improve the javascript standard and then improve their browsers. That's all anybody really needs. And by that I don't mean that it's the only solution or that it's what "everybody wants". I mean that it's the most elegant solution to the problems we're facing. It leaves the door open other ideas as well, but it's the minimum that we need to move forward. And I'm not sure why everybody hasn't caught on to that yet.</p>
+
+    <div class="links">Categories: <a href="../../category/javascript.html">javascript</a></div>
+    
+    <div id="comments">
+    <h3><span>16</span> Response<span>s</span> to this Article</h3>
+    <p class="links"><a href="index.html#add_comment">leave a comment</a></p>
+    <ul class="xoxo comments">
+        <li class="comment e">
+            <span>Added by <span class="commenter">Raynos</span> on <span class="dateline">10-11-2011 1:41 PM</span></span>
+            
+            <p>&gt; The real problem is browsers. Period.
+
+<br/>
+
+
+<br/>
+Sometimes we actually forget to core of our problems. Thanks for reminding us</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Visnu Pitiyanuvath</span> on <span class="dateline">10-15-2011 12:30 AM</span></span>
+            
+            <p>the introduction of another language reminds me of http://xkcd.com/927/</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">Amanda</span> on <span class="dateline">02-13-2012 11:59 AM</span></span>
+            
+            <p>Very good post, tnakhs a lot for sharing. Do you happen to have an RSS feed I can subscribe to?</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">jsptudui@gmail.com</span> on <span class="dateline">12-05-2012 12:45 PM</span></span>
+            
+            <p>YRlzpysCsaVJShURTg 9212</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">xljpqcuflms@gmail.com</span> on <span class="dateline">01-19-2013 6:59 PM</span></span>
+            
+            <p>Troubled persons include created a lot of advance while using the environmental safeguard. Overall health techniques of your quite a few spots have established legislation to defend the oxygen, woods in addition to seashore approaches as a way to halt the environmental carbon dioxide. Nevertheless significantly more approaches ought to be delivered to distinct up the environmental complications.</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Pharmk593</span> on <span class="dateline">01-28-2013 9:59 PM</span></span>
+            
+            <p>Hello! kdakfgd interesting kdakfgd site! I'm really like it! Very, very kdakfgd good!</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">pwatwzwcd@gmail.com</span> on <span class="dateline">02-12-2013 7:49 AM</span></span>
+            
+            <p>Keep up the fantastic piece of work, I read few articles on this website and I believe that your web site is very interesting and has bands of fantastic info.</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">louis vuitton suitcase</span> on <span class="dateline">12-22-2013 9:43 AM</span></span>
+            
+            <p>louis vuitton diaper bags
+
+<br/>
+[url=http://www.glenbenson.com/louis-vuitton/louis-vuitton-suitcase.html]louis vuitton suitcase[/url]</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">louis vuitton delightful pm</span> on <span class="dateline">12-22-2013 7:06 PM</span></span>
+            
+            <p>Cheap DC Comics Snapbacks
+
+<br/>
+ 
+<a href="http://www.chs73.org/louisvuitton/louis-vuitton-delightful-pm.html">louis vuitton delightful pm</a></p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">cxsnoflmip</span> on <span class="dateline">12-23-2013 3:47 PM</span></span>
+            
+            <p>A quick rant on web development and elegant solutions | CODE [sic]
+
+<br/>
+[url=http://www.gevu29ys65284y81ga4926knurot50b4s.org/]ucxsnoflmip[/url]
+
+<br/>
+cxsnoflmip http://www.gevu29ys65284y81ga4926knurot50b4s.org/
+
+<br/>
+<a href="http://www.gevu29ys65284y81ga4926knurot50b4s.org/">acxsnoflmip</a>
+
+
+<br/></p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">nike バスケ サポーター</span> on <span class="dateline">12-24-2013 10:41 AM</span></span>
+            
+            <p>A quick rant on web development and elegant solutions | CODE [sic]
+
+<br/>
+<a href="http://www.soil-assessment-cone-penetrometer.co.uk/images/newbalance/2987.html"><strong>NEW BALANCE &#12452;&#12531;&#12477;&#12540;&#12523;</strong></a>
+
+
+<br/>
+<a href="http://www.larvikimp.no/miljo/louisvuitton/1878.html">ルイヴィトン タイガ 長財布</a>
+
+
+<br/>
+<a href="http://www.amsonnenbichl.de/formular/louisvuitton/1105.html">ルイヴィトン 財布 草間弥生</a>
+
+
+<br/>
+<a href="http://www.larvikimp.no/miljo/louisvuitton/1736.html">ルイヴィトン 名刺入れ 新作</a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/2547.html">&#12490;&#12452;&#12461; &#12501;&#12521;&#12483;&#12464;&#12471;&#12483;&#12503;&#12473;&#12488;&#12450; &#21407;&#23487;</a>
+
+
+<br/>
+<a href="http://www.calicraft.co.za/images/newbalance/747.html"><strong>&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#28608;&#23433; &#20605;&#29289;</strong></a>
+
+
+<br/>
+<a href="http://www.kitengesalibrary.org/images/beats/beats-solo-cheap.html">beats solo cheap</a>
+
+
+<br/>
+<a href="http://www.soil-assessment-cone-penetrometer.co.uk/images/newbalance/497.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#12503;&#12524;&#12511;&#12450;</a>
+
+
+<br/>
+<a href="http://www.blufing.com/images/nike/5554.html">&#12490;&#12452;&#12461;&#12468;&#12523;&#12501; &#12456;&#12463;&#12473;&#12488;&#12522;&#12540;&#12512;&#12473;&#12509;&#12540;&#12484;</a>
+
+
+<br/>
+<a href="http://www.soil-assessment-cone-penetrometer.co.uk/images/newbalance/2157.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; M1400 BKS</a>
+
+
+<br/>
+<a href="http://www.blufing.com/images/nike/366.html"><strong>&#12490;&#12452;&#12461;&#26032;&#20316;&#12521;&#12531;&#12491;&#12531;&#12464;&#12471;&#12517;&#12540;&#12474;</strong></a>
+
+
+<br/>
+<a href="http://www.kitengesalibrary.org/images/chanel/chanel-aviator.html">chanel aviator</a>
+
+
+<br/>
+<a href="http://www.everafterimages.com/images/chanel/chanel-ceramic-watch.html">Chanel Ceramic Watch</a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/1260.html">nike &#12521;&#12531;&#12491;&#12531;&#12464; &#12454;&#12455;&#12450; &#12524;&#12487;&#12451;&#12540;&#12473;</a>
+
+
+<br/>
+<a href="http://www.alhanane3.com/images/nike/6885.html">&#12490;&#12452;&#12461; &#12474;&#12540;&#12512; &#12467;&#12540;&#12499;&#12540; 6</a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/5075.html">nike &#12468;&#12523;&#12501; &#12473;&#12497;&#12452;&#12463;</a>
+
+
+<br/>
+<a href="http://www.calicraft.co.za/images/newbalance/3795.html"><strong>new balance uk &#12469;&#12452;&#12474;</strong></a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/3590.html">&#12490;&#12452;&#12461;id&#12469;&#12452;&#12488;</a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/3170.html"><strong>&#12490;&#12452;&#12461; &#32681;&#36275;</strong></a>
+
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/561.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; 996 576</a>
+
+
+<br/>
+<a href="http://jianfei.xiaochunxiu.cn/jianfei6549.html">http://jianfei.xiaochunxiu.cn/jianfei6549.html</a>
+
+
+<br/>
+<a href="http://www.haidenthaler.com/haidenthaler_htm_files/louisvuitton/425.html">ルイヴィトン バッグ ナイル</a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/5108.html">&#12490;&#12452;&#12461; &#12468;&#12523;&#12501;</a>
+
+
+<br/>
+<a href="http://www.calicraft.co.za/images/newbalance/1734.html">New Balance &#12473;&#12491;&#12540;&#12459;&#12540; &#31278;&#39006;</a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/6095.html">&#12490;&#12452;&#12461; &#12469;&#12483;&#12459;&#12540;</a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/1390.html">NIKE &#12469;&#12483;&#12459;&#12540; CM</a>
+
+
+<br/>
+<a href="http://www.alhanane3.com/images/nike/510.html">nike &#12496;&#12473;&#12465; &#12469;&#12509;&#12540;&#12479;&#12540;</a>
+
+
+<br/></p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">ナイキ ジャージ 上</span> on <span class="dateline">12-24-2013 11:35 AM</span></span>
+            
+            <p>A quick rant on web development and elegant solutions | CODE [sic]
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/4056.html"><strong>&#12490;&#12452;&#12461; &#12469;&#12531;&#12464;&#12521;&#12473; &#30331;&#23665;</strong></a>
+
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/1892.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#12527;&#12452;&#12474; &#34920;</a>
+
+
+<br/>
+<a href="http://www.citybythesea.com/images/chanel/chanel-brush-set.html">chanel brush set</a>
+
+
+<br/>
+<a href="http://www.alhanane3.com/images/nike/5734.html">NIKE &#12503;&#12523;&#12458;&#12540;&#12496;&#12540; &#12496;&#12473;&#12465;</a>
+
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/1227.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; U420</a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/1095.html">&#12490;&#12452;&#12461; &#12521;&#12531;&#12491;&#12531;&#12464; &#12471;&#12517;&#12540;&#12474; &#12521;&#12531;&#12461;&#12531;&#12464;</a>
+
+
+<br/>
+<a href="http://www.calicraft.co.za/images/newbalance/2600.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#12473;&#12491;&#12540;&#12459;&#12540; &#12503;&#12524;&#12511;&#12450;</a>
+
+
+<br/>
+<a href="http://www.durgabaideshmukhcollege.org/images/beats/beats-pro.html"><strong>beats pro</strong></a>
+
+
+<br/>
+<a href="http://www.amsonnenbichl.de/formular/louisvuitton/1800.html"><strong>ルイヴィトン バッグ クルーズライン</strong></a>
+
+
+<br/>
+<a href="http://www.blufing.com/images/nike/4917.html">&#12490;&#12452;&#12461; &#12501;&#12449;&#12463;&#12488;&#12522;&#12540; &#12450;&#12454;&#12488;&#12524;&#12483;&#12488;</a>
+
+
+<br/>
+<a href="http://www.vandekorput.be/en/louisvuitton/1231.html">ルイ ヴィトン サングラス ど</a>
+
+
+<br/>
+<a href="http://www.blufing.com/images/nike/3118.html"><strong>&#12490;&#12452;&#12461; &#12461;&#12515;&#12483;&#12503;</strong></a>
+
+
+<br/>
+<a href="http://www.everafterimages.com/images/ugg/are-uggs-waterproof.html"><strong>ARE UGGS WATERPROOF</strong></a>
+
+
+<br/>
+<a href="http://www.calicraft.co.za/images/newbalance/1160.html">NEW BALANCE &#12469;&#12531;&#12480;&#12523;</a>
+
+
+<br/>
+<a href="http://www.kdvjolie.nl/documenten/louisvuitton/1021.html"><strong>ルイ ヴィトン 秋冬コレクション</strong></a>
+
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/4533.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#23450;&#30058; &#33394;</a>
+
+
+<br/>
+<a href="http://www.everafterimages.com/images/chanel/chanel-soap.html">chanel soap</a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/5476.html">NIKE &#12477;&#12540;&#12523;&#20132;&#25563;</a>
+
+
+<br/>
+<a href="http://www.calicraft.co.za/images/newbalance/4380.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; 574 &#26792;&#33457;ABC&#12510;&#12540;&#12488;</a>
+
+
+<br/>
+<a href="http://www.ezefloridavilla.com/images/newbalance/3309.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; 1500 &#12497;&#12540;&#12503;&#12523;</a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/205.html">NIKE &#26481;&#20140;</a>
+
+
+<br/>
+<a href="http://www.alhanane3.com/images/nike/6621.html">&#12490;&#12452;&#12461; &#12521;&#12531;&#12491;&#12531;&#12464;</a>
+
+
+<br/>
+<a href="http://forums.fireworknk.com/memes-gif/descargandome-todo-el-internet-4-381anos/?PHPSESSID=8f6797ba1e6970551895b242b5738c45"><strong>http://forums.fireworknk.com/memes-gif/descargandome-todo-el-internet-4-381anos/?PHPSESSID=8f6797ba1e6970551895b242b5738c45</strong></a>
+
+
+<br/>
+<a href="http://www.everafterimages.com/images/beats/monster-beat-dr-dre.html">monster beat dr dre</a>
+
+
+<br/>
+<a href="http://www.blufing.com/images/nike/2824.html">&#12490;&#12452;&#12461; &#12456;&#12450;&#12472;&#12519;&#12540;&#12480;&#12531; &#12469;&#12452;&#12474;</a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/2510.html">&#12490;&#12452;&#12461; &#12450;&#12531;&#12480;&#12540;&#12471;&#12515;&#12484;</a>
+
+
+<br/>
+<a href="http://www.soil-assessment-cone-penetrometer.co.uk/images/newbalance/1701.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473;M1400 &#12473;&#12486;&#12451;&#12540;&#12523;&#12502;&#12523;&#12540;</a>
+
+
+<br/>
+<a href="http://www.ezefloridavilla.com/images/newbalance/834.html"><strong>&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#12473;&#12491;&#12540;&#12459;&#12540; &#27700;&#33394;</strong></a>
+
+
+<br/>
+<a href="http://www.calicraft.co.za/images/newbalance/74.html"><strong>&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; m576 &#12501;&#12455;&#12470;&#12540;</strong></a>
+
+
+<br/>
+<a href="http://www.alhanane3.com/images/nike/1561.html">&#12490;&#12452;&#12461; &#12473;&#12497;&#12452;&#12463; &#12518;&#12540;&#12525;&#12514;&#12487;&#12523;</a>
+
+
+<br/>
+<a href="http://www.ezefloridavilla.com/images/newbalance/320.html"><strong>&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#12499;&#12540;&#12512;&#12473; &#21029;&#27880;</strong></a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/1721.html">&#12490;&#12452;&#12461; &#12501;&#12522;&#12540; &#12488;&#12524;&#12540;&#12490;&#12540;</a>
+
+
+<br/>
+<a href="http://www.alhanane3.com/images/nike/5606.html">&#12490;&#12452;&#12461; &#12502;&#12524;&#12470;&#12540; &#36890;&#36009;</a>
+
+
+<br/>
+<a href="http://www.alhanane3.com/images/nike/2898.html"><strong>&#12490;&#12452;&#12461; &#12456;&#12450;&#12510;&#12483;&#12463;&#12473; &#12467;&#12531;&#12500;&#12540;&#12488;</strong></a>
+
+
+<br/>
+<a href="http://www.calicraft.co.za/images/newbalance/350.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#12461;&#12483;&#12474; &#26032;&#20316;</a>
+
+
+<br/>
+<a href="http://www.everafterimages.com/images/ugg/uggs-store-locator.html">Uggs Store Locator</a>
+
+
+<br/>
+<a href="http://www.ezefloridavilla.com/images/newbalance/4496.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#12463;&#12521;&#12471;&#12483;&#12463;</a>
+
+
+<br/>
+<a href="http://www.citybythesea.com/images/moncler/moncler-prices.html"><strong>moncler prices</strong></a>
+
+
+<br/>
+<a href="http://www.blufing.com/images/nike/1402.html">NIKE &#12456;&#12450;&#12514;&#12483;&#12463;</a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/1498.html">&#12490;&#12452;&#12461; &#12472;&#12515;&#12540;&#12472; &#19978;</a>
+
+
+<br/></p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">ルイヴィトン バッグ 軽い</span> on <span class="dateline">12-24-2013 12:28 PM</span></span>
+            
+            <p>A quick rant on web development and elegant solutions | CODE [sic]
+
+<br/>
+<a href="http://www.kdvjolie.nl/documenten/louisvuitton/1981.html"><strong>ルイヴィトン 財布 本物 値段</strong></a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/274.html">&#12490;&#12452;&#12461; &#12469;&#12483;&#12459;&#12540; &#12518;&#12491;&#12501;&#12457;&#12540;&#12512; &#12459;&#12479;&#12525;&#12464;</a>
+
+
+<br/>
+<a href="http://www.vandekorput.be/en/louisvuitton/621.html">ルイヴィトン アウトレット 激安</a>
+
+
+<br/>
+<a href="http://www.ezefloridavilla.com/images/newbalance/4039.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; 996 25&#21608;&#24180;</a>
+
+
+<br/>
+<a href="http://www.citybythesea.com/images/moncler/moncler-himalaya-jacket.html"><strong>Moncler Himalaya Jacket</strong></a>
+
+
+<br/>
+<a href="http://www.kitengesalibrary.org/images/moncler/pharrell-x-moncler.html"><strong>Pharrell X Moncler</strong></a>
+
+
+<br/>
+<a href="http://www.blufing.com/images/nike/4088.html"><strong>&#12490;&#12452;&#12461; &#20809;&#12427;&#38772;</strong></a>
+
+
+<br/>
+<a href="http://www.missionconvergence.org/images/ugg/ugg-waterproof.html"><strong>UGG WATERPROOF</strong></a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/4484.html">&#12490;&#12452;&#12461; &#12506;&#12491;&#12540;</a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/3298.html"><strong>&#12490;&#12452;&#12461; &#12501;&#12522;&#12540; &#12504;&#12452;&#12502;&#12531;3.0</strong></a>
+
+
+<br/>
+<a href="http://www.calicraft.co.za/images/newbalance/4316.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; 1700 &#36890;&#36009;</a>
+
+
+<br/>
+<a href="http://www.alhanane3.com/images/nike/936.html"><strong>&#12490;&#12452;&#12461; &#12473;&#12491;&#12540;&#12459;&#12540; &#12467;&#12540;&#12487;&#12451;&#12493;&#12540;&#12488; &#12524;&#12487;&#12451;&#12540;&#12473;</strong></a>
+
+
+<br/>
+<a href="http://www.amsonnenbichl.de/formular/louisvuitton/1428.html">ルイヴィトン エピ 長財布 新品</a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/7092.html">NIKE &#12480;&#12531;&#12463; &#12507;&#12527;&#12452;&#12488;</a>
+
+
+<br/>
+<a href="http://www.ezefloridavilla.com/images/newbalance/204.html">New Balance &#38609;&#23398;</a>
+
+
+<br/>
+<a href="http://www.amsonnenbichl.de/formular/louisvuitton/1599.html">ルイヴィトン 公式 新作</a>
+
+
+<br/>
+<a href="http://www.ezefloridavilla.com/images/newbalance/747.html"><strong>&#27005;&#22825; &#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#12524;&#12487;&#12451;&#12540;&#12473; &#12473;&#12491;&#12540;&#12459;&#12540;</strong></a>
+
+
+<br/>
+<a href="http://www.everafterimages.com/images/chanel/chanel-bag-online.html"><strong>Chanel Bag Online</strong></a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/4253.html">&#12490;&#12452;&#12461; &#12501;&#12522;&#12540; &#26222;&#27573;&#23653;&#12365;</a>
+
+
+<br/>
+<a href="http://www.vandekorput.be/en/louisvuitton/1905.html">ルイヴィトン 財布 ダミエ</a>
+
+
+<br/>
+<a href="http://www.missionconvergence.org/images/moncler/moncler-ladies-jackets.html">moncler ladies jackets</a>
+
+
+<br/>
+<a href="http://www.everafterimages.com/images/chanel/chanel-book.html">CHANEL BOOK</a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/4972.html">NIKE &#12461;&#12483;&#12474; &#12501;&#12522;&#12540;&#12521;&#12531;</a>
+
+
+<br/>
+<a href="http://www.ezefloridavilla.com/images/newbalance/2036.html"><strong>&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#27178;&#24133;</strong></a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/1596.html">&#12490;&#12452;&#12461; &#12505;&#12473;&#12488;</a>
+
+
+<br/>
+<a href="http://www.amsonnenbichl.de/formular/louisvuitton/1696.html">ルイヴィトン 財布 オレンジ</a>
+
+
+<br/>
+<a href="http://gakubee.sakura.ne.jp/cgi-bin/gate-gaku/joyfulyy-gaku/joyfulyy.cgi?get=2&pa"><strong>http://gakubee.sakura.ne.jp/cgi-bin/gate-gaku/joyfulyy-gaku/joyfulyy.cgi?get=2&pa</strong></a>
+
+
+<br/>
+<a href="http://www.calicraft.co.za/images/newbalance/2224.html">&#12494;&#12531;&#12493;&#12452;&#12486;&#12451;&#12502; &#12513;&#12460;&#12493;</a>
+
+
+<br/>
+<a href="http://www.citybythesea.com/images/moncler/kids-moncler-jackets.html"><strong>kids moncler jackets</strong></a>
+
+
+<br/>
+<a href="http://www.ezefloridavilla.com/images/newbalance/3971.html"><strong>&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#24215;&#33303; &#31070;&#25144;</strong></a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/4901.html">&#12490;&#12452;&#12461;&#12468;&#12523;&#12501; &#12525;&#12468;&#12510;&#12540;&#12463;</a>
+
+
+<br/>
+<a href="http://www.ezefloridavilla.com/images/newbalance/3349.html"><strong>&#19977;&#30000; &#12450;&#12454;&#12488;&#12524;&#12483;&#12488; &#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473;</strong></a>
+
+
+<br/>
+<a href="http://www.blufing.com/images/nike/3798.html"><strong>&#12490;&#12452;&#12461; &#12480;&#12531;&#12463; NG</strong></a>
+
+
+<br/>
+<a href="http://www.soil-assessment-cone-penetrometer.co.uk/images/newbalance/3583.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#38772;&#19979;</a>
+
+
+<br/>
+<a href="http://www.casaderetiroespiritual.com/images/chanel/classic-chanel-bags.html"><strong>classic chanel bags</strong></a>
+
+
+<br/>
+<a href="http://www.kitengesalibrary.org/images/beats/beats-by-dre-studio-monster.html">beats by dre studio monster</a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/2749.html">nike &#12467;&#12496;&#12540;&#12488;</a>
+
+
+<br/>
+<a href="http://www.kitengesalibrary.org/images/chanel/chanel-255.html">chanel 255</a>
+
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/1436.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#12461;&#12483;&#12474; &#21029;&#27880;</a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/3578.html">Nike &#12471;&#12517;&#12540;&#12474; &#36196;</a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/5716.html">nike &#12472;&#12515;&#12540;&#12472; &#19978;&#19979; &#12513;&#12531;&#12474;</a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/2159.html">&#12490;&#12452;&#12461;&#12501;&#12522;&#12540; &#12471;&#12517;&#12540;&#12474;</a>
+
+
+<br/>
+<a href="http://www.calicraft.co.za/images/newbalance/3010.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; 574 &#12464;&#12524;&#12540; &#12500;&#12531;&#12463;</a>
+
+
+<br/>
+<a href="http://www.amsonnenbichl.de/formular/louisvuitton/43.html">ルイヴィトン バッグ 軽い</a>
+
+
+<br/></p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">moncler puffer coat</span> on <span class="dateline">12-24-2013 1:53 PM</span></span>
+            
+            <p>A quick rant on web development and elegant solutions | CODE [sic]
+
+<br/>
+<a href="http://www.soil-assessment-cone-penetrometer.co.uk/images/newbalance/2746.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#26792;&#33457; &#12502;&#12525;&#12464;</a>
+
+
+<br/>
+<a href="http://www.haidenthaler.com/haidenthaler_htm_files/louisvuitton/1507.html">ルイ ヴィトン トロカデロ</a>
+
+
+<br/>
+<a href="http://www.everafterimages.com/images/ugg/ugg-jillian.html">Ugg Jillian</a>
+
+
+<br/>
+<a href="http://www.soil-assessment-cone-penetrometer.co.uk/images/newbalance/1892.html"><strong>Nb 1700 &#12494;&#12531;&#12493;&#12452;&#12486;&#12451;&#12502;</strong></a>
+
+
+<br/>
+<a href="http://www.citybythesea.com/images/ugg/imitation-uggs.html"><strong>imitation uggs</strong></a>
+
+
+<br/>
+<a href="http://www.soil-assessment-cone-penetrometer.co.uk/images/newbalance/2329.html">new balance &#12463;&#12525;&#12473;&#12459;&#12531;&#12488;&#12522;&#12540;</a>
+
+
+<br/>
+<a href="http://www.calicraft.co.za/images/newbalance/867.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473;M996 &#12464;&#12522;&#12540;&#12531;</a>
+
+
+<br/>
+<a href="http://www.larvikimp.no/miljo/louisvuitton/1535.html"><strong>ルイヴィトン セカンドバッグ タイガ</strong></a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/6016.html"><strong>&#12490;&#12452;&#12461; &#12473;&#12491;&#12540;&#12459;&#12540; &#12473;&#12456;&#12540;&#12489;</strong></a>
+
+
+<br/>
+<a href="http://www.blufing.com/images/nike/3344.html">Nike &#12523;&#12490; &#12481;&#12515;&#12483;&#12459;</a>
+
+
+<br/>
+<a href="http://www.soil-assessment-cone-penetrometer.co.uk/images/newbalance/53.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#12473;&#12491;&#12540;&#12459;&#12540; &#33590;&#33394;</a>
+
+
+<br/>
+<a href="http://www.blufing.com/images/nike/3036.html"><strong>&#12490;&#12452;&#12461; &#12510;&#12521;&#12477;&#12531; t&#12471;&#12515;&#12484;</strong></a>
+
+
+<br/>
+<a href="http://www.larvikimp.no/miljo/louisvuitton/62.html"><strong>ルイヴィトン 偽者 激安</strong></a>
+
+
+<br/>
+<a href="http://www.amsonnenbichl.de/formular/louisvuitton/160.html">ルイ ヴィトン 心斎橋</a>
+
+
+<br/>
+<a href="http://www.everafterimages.com/images/ugg/ugg-sunburst.html"><strong>UGG SUNBURST</strong></a>
+
+
+<br/>
+<a href="http://www.amsonnenbichl.de/formular/louisvuitton/806.html">ルイヴィトン 財布 型番</a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/897.html">nike id &#12462;&#12515;&#12521;&#12522;&#12540;</a>
+
+
+<br/>
+<a href="http://www.ezefloridavilla.com/images/newbalance/253.html">new balance &#12524;&#12487;&#12451;&#12540;&#12473;</a>
+
+
+<br/>
+<a href="http://www.citybythesea.com/images/chanel/chanel-pearl-necklaces.html">chanel pearl necklaces</a>
+
+
+<br/>
+<a href="http://www.citybythesea.com/images/ugg/pink-ugg-slippers.html">Pink Ugg Slippers</a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/4410.html">&#12490;&#12452;&#12461; &#12473;&#12491;&#12540;&#12459;&#12540; &#12524;&#12488;&#12525;</a>
+
+
+<br/>
+<a href="http://www.blufing.com/images/nike/5756.html"><strong>&#12490;&#12452;&#12461; &#12472;&#12515;&#12540;&#12472; 2010</strong></a>
+
+
+<br/>
+<a href="http://www.kitengesalibrary.org/images/beats/monster-dre.html">Monster Dre</a>
+
+
+<br/>
+<a href="http://www.soil-assessment-cone-penetrometer.co.uk/images/newbalance/2516.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; usa</a>
+
+
+<br/>
+<a href="http://www.casaderetiroespiritual.com/images/beats/free-binaural-beats.html"><strong>free binaural beats</strong></a>
+
+
+<br/>
+<a href="http://www.queenplaza.com/html/board_modify.asp?idx=123041">http://www.queenplaza.com/html/board_modify.asp?idx=123041</a>
+
+
+<br/>
+<a href="http://www.kitengesalibrary.org/images/moncler/moncler-puffer-coat.html">moncler puffer coat</a>
+
+
+<br/></p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">ナイキ ダイナモフリー キッズ</span> on <span class="dateline">12-25-2013 9:13 AM</span></span>
+            
+            <p>A quick rant on web development and elegant solutions | CODE [sic]
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/4588.html"><strong>&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473;996 &#32209;</strong></a>
+
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/4573.html">New Balance &#12469;&#12531;&#12480;&#12523; &#12513;&#12531;&#12474;</a>
+
+
+<br/>
+<a href="http://www.blufing.com/images/nike/249.html"><strong>&#12490;&#12452;&#12461; &#12469;&#12531;&#12464;&#12521;&#12473; &#21462;&#25201;&#24215;</strong></a>
+
+
+<br/>
+<a href="http://www.kitengesalibrary.org/images/chanel/clear-chanel.html">Clear Chanel</a>
+
+
+<br/>
+<a href="http://www.haidenthaler.com/haidenthaler_htm_files/louisvuitton/804.html">ルイヴィトン ジェアン 長財布</a>
+
+
+<br/>
+<a href="http://www.soil-assessment-cone-penetrometer.co.uk/images/newbalance/3973.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#12473;&#12491;&#12540;&#12459;&#12540; &#12473;&#12490;&#12483;&#12503;</a>
+
+
+<br/>
+<a href="http://www.alhanane3.com/images/nike/1510.html">&#12490;&#12452;&#12461; &#12456;&#12450;&#12472;&#12519;&#12540;&#12480;&#12531; &#36890;&#36009;</a>
+
+
+<br/>
+<a href="http://www.blufing.com/images/nike/1712.html">&#12490;&#12452;&#12461; &#12469;&#12483;&#12459;&#12540; &#12472;&#12517;&#12491;&#12450;</a>
+
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/4572.html">NEW BALANCE &#12471;&#12522;&#12540;&#12474;</a>
+
+
+<br/>
+<a href="http://www.alhanane3.com/images/nike/5365.html"><strong>&#12490;&#12452;&#12461; &#12473;&#12491;&#12540;&#12459;&#12540; &#36605;&#37327;</strong></a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/2185.html"><strong>&#12490;&#12452;&#12461; &#12473;&#12491;&#12540;&#12459;&#12540; &#26032;&#20316; 2013</strong></a>
+
+
+<br/>
+<a href="http://www.everafterimages.com/images/chanel/chanel-mens-sunglasses.html">Chanel Mens Sunglasses</a>
+
+
+<br/>
+<a href="http://www.haidenthaler.com/haidenthaler_htm_files/louisvuitton/645.html"><strong>ルイヴィトン 本物 通販</strong></a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/4181.html">&#12490;&#12452;&#12461; &#12471;&#12517;&#12540;&#12474; 6.0</a>
+
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/1762.html"><strong>&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#12524;&#12458;&#12497;&#12540;&#12489; &#40658;</strong></a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/5158.html"><strong>&#12490;&#12452;&#12461; &#12480;&#12531;&#12463;&#12495;&#12452;08&#12487;&#12451;&#12467;&#12531;&#12473;&#12488;&#12521;&#12463;&#12488;&#12503;&#12524;&#12511;&#12450;&#12512;</strong></a>
+
+
+<br/>
+<a href="http://www.alhanane3.com/images/nike/4457.html">&#12490;&#12452;&#12461; &#12496;&#12483;&#12464; &#12522;&#12517;&#12483;&#12463;</a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/1451.html">&#12490;&#12452;&#12461;&#12501;&#12522;&#12540; &#12521;&#12531;&#12491;&#12531;&#12464;&#12471;&#12517;&#12540;&#12474;</a>
+
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/136.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; &#12473;&#12491;&#12540;&#12459;&#12540; 362</a>
+
+
+<br/>
+<a href="http://www.alhanane3.com/images/nike/2135.html"><strong>&#12490;&#12452;&#12461; &#12456;&#12450;&#12510;&#12483;&#12463;&#12473; &#12524;&#12502;&#12525;&#12531;</strong></a>
+
+
+<br/>
+<a href="http://www.artnoah.net/upic/photos/view/id/130462.html">http://www.artnoah.net/upic/photos/view/id/130462.html</a>
+
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/2570.html"><strong>&#12494;&#12531;&#12493;&#12452;&#12486;&#12451;&#12502; &#26481;&#20140;</strong></a>
+
+
+<br/>
+<a href="http://www.spacestorage.co.za/images/nike/5291.html"><strong>&#12490;&#12452;&#12461; &#12524;&#12502;&#12525;&#12531; &#12461;&#12483;&#12474;</strong></a>
+
+
+<br/>
+<a href="http://www.alhanane3.com/images/nike/2043.html">NIKE &#12497;&#12521;&#12521;&#12483;&#12463;&#12473;</a>
+
+
+<br/>
+<a href="http://www.blufing.com/images/nike/6366.html">&#12524;&#12502;&#12525;&#12531; &#12472;&#12455;&#12540;&#12512;&#12473; &#12490;&#12452;&#12461;</a>
+
+
+<br/>
+<a href="http://www.calicraft.co.za/images/newbalance/225.html">&#12491;&#12517;&#12540;&#12496;&#12521;&#12531;&#12473; 996 &#40644;</a>
+
+
+<br/>
+<a href="http://www.vandekorput.be/en/louisvuitton/208.html">財布 メンズ 長財布 ルイヴィトン ダミエグラフィット</a>
+
+
+<br/>
+<a href="http://www.astonfinder.com/images/newbalance/2962.html">NEW BALANCE &#12511;&#12522;&#12479;&#12522;&#12540;</a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/90.html"><strong>&#12490;&#12452;&#12461; &#20140;&#37117;</strong></a>
+
+
+<br/>
+<a href="http://www.thecountrycorner.co.uk/images/nike/5390.html">&#12490;&#12452;&#12461; &#12480;&#12452;&#12490;&#12514;&#12501;&#12522;&#12540; &#12461;&#12483;&#12474;</a>
+
+
+<br/></p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">louis vuitton totally mm</span> on <span class="dateline">12-25-2013 10:40 PM</span></span>
+            
+            <p>louis vuitton briefcase
+
+<br/>
+ 
+<a href="http://www.glenbenson.com/louis-vuitton/louis-vuitton-totally-mm.html">louis vuitton totally mm</a></p>
+        </li>
+    </ul>
+    
+    <h3 id="add_comment">Add Your Comment</h3>
+    <form action="/blog/10-10-2011/a-quick-rant-on-web-development-and-elegant-solutions/submit_comment" id="comment_form" method="post">
+        
+        
+        
+        
+        <fieldset class="anon">
+            <input checked="checked" class="noborder" id="comment_type1" name="comment_type" type="hidden" value="Anonymous"/><!-- <label for="comment_type1">Anonymous</label> -->
+            <div>
+                <input id="comment_name" name="comment_name" onblur="populate_name(this)" onfocus="clear_name(this)" type="text" value="Your Name"/>
+                <input id="comment_email" name="comment_email" onblur="populate_email(this)" onfocus="clear_email(this)" type="text" value="Your Email"/>
+            </div>
+        </fieldset>
+<!--
+        <fieldset class="openid">
+            <input type="radio" id="comment_type2" class="noborder" name="comment_type" value="OpenID" /><label for="comment_type2">OpenID</label>
+            <div>
+                <input type="text" id="comment_openid" name="comment_openid" value="Your OpenID Identity" onfocus="clear_openid(this)" onblur="populate_openid(this)" /> <img tal:attr="src: app.getStaticMountpoint('images/openid-logo.gif')" alt="OpenID logo" /> 
+            </div>
+        </fieldset>
+-->
+        <fieldset>
+            <textarea cols="50" id="comment_msg" name="comment_msg" onblur="populate_comments(this)" onfocus="clear_comments(this)" rows="10">Your Comments</textarea>
+        </fieldset>
+        <fieldset>
+            <input class="submit" type="Submit" value="Submit Your Comment"/>
+        </fieldset>
+    </form>
+    
+</div>
+</div>
+
+                <div id="sidebar">
+
+    <link href="http://calendaraboutnothing.com/styles/widget/seinfeld-badge.css" media="screen, projection" rel="stylesheet" type="text/css"/>
+
+    <div class="seinfeld-badge user-polotek">
+        <h2>I like open software</h2>
+        <p><a href="http://calendaraboutnothing.com/~polotek" rel="me">Calendar About Nothing</a> tracks my public contributions on <a href="http://github.com/polotek">GitHub</a>.</p>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+
+    <script src="http://calendaraboutnothing.com/javascripts/widget/seinfeld-badge.js" type="text/javascript"></script>
+
+    <ul class="xoxo">
+        <li id="categories">
+            <h3>Categories</h3>
+            <dl class="xoxo_desc">
+                <dt>description</dt>
+                <dd>List of Categories for Posts</dd>
+            </dl>
+            <ul>
+                <li><a href="../../category/axiom-stack.html">axiom stack (2)</a></li><li><a href="../../category/blog-updates.html">blog updates (2)</a></li><li><a href="../../category/browsers.html">browsers (1)</a></li><li><a href="../../category/content-management.html">content management (2)</a></li><li><a href="../../category/databases.html">databases (1)</a></li><li><a href="../../category/e4x.html">e4x (1)</a></li><li><a href="../../category/exception-handling.html">exception handling (1)</a></li><li><a href="../../category/extjs.html">extjs (1)</a></li><li><a href="../../category/facebook.html">facebook (2)</a></li><li><a href="../../category/firefox.html">firefox (2)</a></li><li><a href="../../category/firefox-add-ons.html">firefox add-ons (2)</a></li><li><a href="../../category/google-chrome.html">google chrome (1)</a></li><li><a href="../../category/greasemonkey.html">greasemonkey (2)</a></li><li><a href="../../category/imho.html">imho (3)</a></li><li><a href="../../category/java.html">java (1)</a></li><li><a href="../../category/javascript.html">javascript (4)</a></li><li><a href="../../category/libxmljs.html">libxmljs (1)</a></li><li><a href="../../category/markdown.html">markdown (1)</a></li><li><a href="../../category/narwhal.html">narwhal (1)</a></li><li><a href="../../category/nodejs.html">node.js (2)</a></li><li><a href="../../category/oodb.html">OODB (1)</a></li><li><a href="../../category/opinions.html">opinions (1)</a></li><li><a href="../../category/rdbms.html">RDBMS (1)</a></li><li><a href="../../category/safari.html">safari (1)</a></li><li><a href="../../category/semantic-markup.html">semantic markup (1)</a></li><li><a href="../../category/serverjs.html">serverjs (1)</a></li><li><a href="../../category/stupid-dev-questions.html">stupid dev questions (2)</a></li><li><a href="../../category/uneducated-opinions.html">uneducated opinions (1)</a></li><li><a href="../../category/wysiwyg.html">wysiwyg (1)</a></li>
+            </ul>
+        </li>
+        <li id="recent">
+            <h3>Recent Entries</h3>
+            <dl class="xoxo_desc">
+                <dt>title</dt>
+                <dd>Recent Posts</dd>
+                <dt>description</dt>
+                <dd>Most Recent Posts by Date Published</dd>
+            </dl>
+            <ul>
+                <li><a href="../a-quick-rant-on-web-development-and-elegant-solutions.html">A quick rant on web development and elegant solutions</a></li><li><a href="../../01-22-2011/nodejs-community-could-use-some-tlc.html">The Node.js Community Could Use Some TLC</a></li><li><a href="../../08-04-2010/a-quick-project-to-create-an-ebook-from-html.html">A quick project to create an ebook from html</a></li><li><a href="../../06-17-2010/updating-libxmljs-for-nodejs-or-how-to-suck-less-at-google-v8.html">Updating libxmljs on node.js: or, how to suck less at Google v8</a></li><li><a href="../../02-24-2010/creating-a-blog-ill-actually-use.html">Creating a Blog I'll Actually Use</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+            </div>
+
+            <div id="footer">
+                <p class="devinfo">Powered by <a href="http://www.axiomstack.com">Axiom&#174; Stack</a></p>
+            </div>
+
+        </div>
+        <script src="../../static/js/scripts.js" type="text/javascript"></script>
+        <script src="http://www.google.com/jsapi" type="text/javascript"></script>
+        <script type="text/javascript">
+            //<![CDATA[
+            google.load("jquery", "1.3");
+            //]]>
+        </script>
+        <div id="ga">
+    <script type="text/javascript">
+        //<![CDATA[
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        //]]>
+    </script>
+    <script type="text/javascript">
+        //<![CDATA[
+        try {
+        var pageTracker = _gat._getTracker("UA-6862661-1");
+        pageTracker._trackPageview();
+        } catch(err) {}
+        //]]>
+    </script>
+</div>
+        
+
+
+    </body>
+</html>

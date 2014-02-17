@@ -1,0 +1,466 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:tal="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="CODE [sic] Contributing to the web technology conversation" name="description"/>
+        <meta content="Marco Rogers" name="author"/>
+        <title>Why you should be using an Object Database instead of ORM: Part 1 | CODE [sic]</title>
+
+        <link href="../../static/css/style.css" rel="stylesheet" type="text/css"/>
+        
+
+        <link href="../../rss.rss" rel="alternate" title="CODE [sic] RSS 2.0 Content" type="application/rss+xml"/>
+    </head>
+    <body class="post">
+        <div id="wrapper">
+
+            <div id="header">
+    <div class="container">
+        
+        <h2 id="blog_title"><a href="../../index.html">CODE [<em>sic</em>]</a></h2>
+        <p class="desc">Contributing to the web technology conversation</p>
+        <div id="search">
+            <form action="/blog/blog_search" method="get">
+                <fieldset>
+                    <label for="query">Search</label>
+                    <input id="query" name="query" type="text"/>
+                    <input class="submit" type="submit" value="Go"/>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+            <div id="access">
+    <div class="skip_link"><a href="index.html#content" title="Skip navigation to the content">Skip to content</a></div>
+    <div id="menu">
+        <ul>
+            <li><a href="../../index.html" title="Home">Home</a></li>
+            <li><a href="../../about.html" title="About">About</a></li>
+        </ul>
+    </div>
+</div>
+
+            <div id="container">
+
+  <!--[if lt IE 7]>  <div style='margin:20px 0; border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='index.html#' onclick='javascript:this.parentNode.parentNode.style.display='none'; return false;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>    <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>      <div style='width: 75px; float: left;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>      <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>You are using an outdated browser</div>        <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>For a better experience using this site, please upgrade to a modern web browser.</div>      </div>      <div style='width: 75px; float: left;'><a href='http://www.firefox.com' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>      <div style='width: 75px; float: left;'><a href='http://www.browserforthebetter.com/download.html' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-ie8.jpg' style='border: none;' alt='Get Internet Explorer 8'/></a></div>      <div style='width: 73px; float: left;'><a href='http://www.apple.com/safari/download/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>      <div style='float: left;'><a href='http://www.google.com/chrome' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-chrome.jpg' style='border: none;' alt='Get Google Chrome'/></a></div>    </div>  </div>  <![endif]-->
+
+                <div class="post" id="main_content">
+    <h1 class="post_title">Why you should be using an Object Database instead of ORM: Part 1</h1>
+    <span class="dateline">01-08-2009 7:03 AM</span>&#160;&#160;<span class="dateline"><a href="../why-you-should-be-using-an-object-database-instead-of-orm-part-1.html" title="Permanent Link: Why you should be using an Object Database instead of ORM: Part 1">permalink</a></span>
+
+    <p><strong>I think traditional relational databases (RDBMS) are generally crappy for as the data store for complex dynamic web sites.</strong>&#160;
+But despite the inflammatory nature of that first sentence, I'm going
+to try not to turn this into a rant.&nbsp; Instead, I'll try to explain
+the problems I see and why I came to that conclusion.</p>
+
+
+
+
+<h2>The problem with RDBMS</h2>
+
+
+
+
+<p>First of all, I don't have a problem with RDBMS.&nbsp; I think it
+has served us very well up to this point and will continue to do so for
+the forseeable future.&nbsp; It's a perfectly workable solution to the
+problem of storing and retrieving persistent data.</p>
+
+
+
+
+<p>I don't think anyone will take issue with that argument.&nbsp; So
+what's wrong with relational databases?&nbsp; The answer has been
+getting a lot of attention lately so I'll keep it simple and let
+Wikipedia define it for me.&nbsp; <a href="http://en.wikipedia.org/wiki/Object-Relational_impedance_mismatch">Impedance Mismatch</a>.&nbsp;
+I pretty much agree most of the points listed, and several of them can
+be rolled up into one argument.&nbsp; Essentially, RDBMS doesn't fit
+the object-oriented way we like to use data on the web.</p>
+
+
+
+
+<p>The last sentence is important, because it puts some necessary
+context on the argument I'm making.&nbsp; I'm gonna go out on a limb
+and say that the majority of working web professionals have bought into
+object-oriented programming.&nbsp; That's not to say most people
+program this way.&nbsp; PHP is still the most popular web language and
+many people still generate pages in a very top down imperative
+way.&nbsp; (I'm one of those people who thinks PHP lends itself to this
+style, but that's a different rant... I mean discussion).&nbsp; Also,
+some functional languages like <a href="http://www.haskell.org/">Haskell</a> and <a href="http://clojure.org/">Clojure</a> are getting attention as being viable for web programming.</p>
+
+
+
+
+<p>But whenever I see examples of people doing anything useful, I see a trend.&nbsp; <strong>We like to work with object-like data.</strong>&nbsp;
+More and more websites are being built to provide access to bigger and
+more complex collections of data.&nbsp; Movies on Netflix, People and
+their friends on Facebook even boring stuff like all of Physicians in
+your Insurance network under your employee health benefits plan.&nbsp;
+So it's more and more essential for programmers to be able to create a
+good <a href="http://en.wikipedia.org/wiki/Mental_model">mental model</a>
+of the data and how to work with it.&nbsp; Creating objects
+representing these different data collections and then composing them
+together seems to be the best thing going.</p>
+
+
+
+
+<p>When using an RDBMS, in the simplest form, "object-like" just means
+lists or arrays that represent rows in the database.&nbsp; This is
+generally where PHP falls.&nbsp; You use PDO or some equivalent, write
+your SQL statements and you can access your data like this.</p>
+
+
+
+
+<p><code>$get_my_employee = 'select * from "Employee"';<br/>
+$emloyee = $db-&gt;query($get_my_employee).fetch();  // simplified on purpose.  you get the point<br/>
+echo $employee["First Name"];<br/>
+echo $employee["Last Name"];<br/>
+echo $employee["Spouse"];</code></p>
+
+
+
+
+<p>Not too bad, except for that first bit, but it seems harmless enough
+so lets ignore it for now.&nbsp; It's just a collection of related data
+points representing some information on an employee.&nbsp; But things
+are rarely this simple, and that last line looks suspicious too.&nbsp;
+Because we're all about normalization and proper organization of our
+data, we've split all of our Spouses into a separate table and linked
+them through a foreign key. So making a long story short, that first
+line isn't so harmless anymore.&nbsp; You have to do your join and
+specify the fields you want and put your necessary filter clauses on it
+until you get all your data in one fell swoop.</p>
+
+
+
+
+<pre><code>$get_my_employee = 'select e."First Name", e."Last Name", e."Phone Number", ... s."First Name" from "Employee" e, "Spouse" s where e."SpouseID" = 'schmoopie' and e."SpouseID" = s."ID"...';</code></pre>
+
+
+
+
+<p>I put in ellipses in place of some details to speed things
+along.&nbsp; But depending on the complexity of your database schema,
+those ellipses are hiding some headaches.&nbsp; Not to mention the fact
+that you have two columns with the same name that represent different
+data points ("First Name").&nbsp; It's left as an exercize for you to
+determine which is which by adding even more code.&nbsp; Fun times.</p>
+
+
+
+
+<p>But eventually you end up with one long array with the employee
+you're interested in along with all the data about their Spouse as
+well.&nbsp; You completed your task but the journey was a pain, and
+don't even get me started on debugging and maintaing that long SQL
+string.</p>
+
+
+
+
+<h2>The Problem with ORM</h2>
+
+
+
+
+<p>Okay, I think I made the last section a sufficiently irritating
+explanation of what we already know.&nbsp; I wanted to go through this
+to drive home a point though. Problems like this are the reason that
+Object-Relational Mapping (ORM) is all the rage right now.</p>
+
+
+
+
+<p>ORM allows us to take those nasty details and abstract them
+away.&nbsp; We can get nice simple objects to work with and get back to
+the real business of making our web page do something cool.&nbsp; More
+importantly, it allows us to deal with the relationships between our
+data items in a sane fashion.&nbsp; No more jumping through hoops to
+get all of our data points into one row. &nbsp; Let's switch to
+Python/Django just because I haven't worked with any PHP ORMs yet.</p>
+
+
+
+
+<p><code><br/>
+employee = Employee.objects.get(id=1)<br/>
+print employee.first_name<br/>
+print employee.last_name <br/><br/>
+spouse = employee.spouse<br/>
+print spouse.first_name</code></p>
+
+
+
+
+<p>Ah, that's more like it.&nbsp; Even my non-programmer friends (who's
+eyes glaze over when I talk about code) can piece together what's going
+on here.&nbsp; And that first line replaces the previous unpleasantness
+with all the ellipses. So what's my beef with this?&nbsp; On a
+theoretical level, nothing.&nbsp; I'm a fan of Django precisely for
+this reason. But from a more practical perspective, this sets off that
+nervous twitch I get when something is way harder than it needs to
+be.&nbsp; That RDBMS is still there.&nbsp; Lurking.&nbsp; The ORM
+evangelists will respond with "yeah, but you don't have to worry about
+it".&nbsp; First off, I call bullshit on that.&nbsp; It never works out
+that way.&nbsp; But let's say we're drinking the kool-aid today and I
+believe that.&nbsp; The spirit of ORM is to literally take something
+that was designed to work a certain way (RDBMS + SQL), and take lots of
+time and effort to make it work a different way (Objects + simple
+filter functions).&nbsp; Wrapping it in layers of abstraction until it
+doesn't even look like itself.&nbsp; Let's talk about some of the
+problems.</p>
+
+
+
+
+<h3>It's an Abstraction.</h3>
+
+
+
+
+<p>When I first started looking at ORM, I thought this was a good
+idea.&nbsp; Maybe because I was already working with objects as data on
+a regular basis.&nbsp; One of the platforms I started out on was <a href="http://zope.org/">Zope</a>,
+which is built on a datastore that represents actual Python objects
+composed together in a manner of your choosing.&nbsp; It has it's own
+issues, but in terms of web programming, it felt natural.&nbsp; It took
+a while before I got "comfortable" with SQL. It has always felt, for
+lack of a better word <em>icky</em>.  The developers of Django's ORM understand this.  If you look at the <a href="http://docs.djangoproject.com/en/dev/topics/db/queries/#spanning-multi-valued-relationships">documentation for Django Querying</a>,
+the api goes through great pains to insure that you can avoid the
+ickiness.&nbsp; You can represent almost any complex query without
+writing SQL.</p>
+
+
+
+
+<pre><code><br/>## The example assumes you have a Model representing a Blog and this has a number of Entries related to it.<br/>##  To select all blogs that contains entries with <em>"Lennon"</em> in the headline and were published in 2008, we would write:<br/>Blog.objects.filter(entry__headline__contains='Lennon', entry__pub_date__year=2008)</code></pre>
+
+
+
+
+<p>I'm sure the last of my non-programmer friends have drifted away
+after that. But if you are a programmer and you're trying to get a
+handle on how this works, you run into the following bit of nastiness <em>before you even get to this example.</em></p>
+
+
+
+
+<blockquote><p>To handle both of these situations, Django has a consistent way of processing <span class="pre">filter()</span> and <span class="pre">exclude()</span> calls. Everything inside a single <span class="pre">filter()</span> call is applied simultaneously to filter out items matching all those requirements. Successive <span class="pre">filter()</span>
+calls further restrict the set of objects, but for multi-valued
+relations, they apply to any object linked to the primary model, not
+necessarily those objects that were selected by an earlier <span class="pre">filter()</span> call.</p><p>That may sound a bit confusing, so hopefully an example will clarify. (the above code example follows)</p></blockquote>
+
+
+
+
+<p>Even the developers of one of the best schemes out there (in my
+opinion) have to admit that they've got some crazy juju going on under
+the hood.&nbsp; This is because they have to take what you're trying to
+do and put the ick back into it.&nbsp; These simple filters get
+translated into not so simple SQL.&nbsp; And to top things off, they
+frequently try to help you along by giving you the equivalent example
+in SQL.&nbsp; So you frequently end up doing double work.&nbsp;</p>
+
+
+
+
+<ul>
+    <li>Step 1) How would I do this with a complex SQL query?</li>
+    <li>Step 2) How do I translate Step 1 to my nifty ORM api so I can get my data as objects?</li></ul>
+
+
+
+
+<h3>It leaks</h3>
+
+
+
+
+<p>The complexity of the ORM scheme leaves you wide open for leaky
+abstraction problems.&nbsp; And often times, when you run into these,
+you <a href="http://gasi.ch/blog/the-law-of-leaky-abstractions/">lose a lot of the time you saved</a> by using the abstraction in the first place.</p>
+
+
+
+
+<h3>If it doesn't work, you're back where you started</h3>
+
+
+
+
+<p>Is this really an acceptable trade-off to be able to work with
+object-like data?&nbsp; Absolutely.&nbsp; Hence the popularity of
+Django and Ruby on Rails and Symphony (or whatever php framework is
+actually in style these days)&nbsp; But to boil it down to the point of
+this post.&nbsp; <strong>Why are we choosing to deal with this impedance mismatch when we don't really have to?</strong></p>
+
+
+
+
+<p>In part 2 to this post, I'll take a shot at talking about object
+databases and making a case that they should become a more common
+addition to our web framework architectures.</p>
+
+    <div class="links">Categories: <a href="../../category/databases.html">databases</a>, <a href="../../category/imho.html">imho</a>, <a href="../../category/oodb.html">OODB</a>, <a href="../../category/rdbms.html">RDBMS</a></div>
+    
+    <div id="comments">
+    <h3><span>7</span> Response<span>s</span> to this Article</h3>
+    <p class="links"><a href="index.html#add_comment">leave a comment</a></p>
+    <ul class="xoxo comments">
+        <li class="comment e">
+            <span>Added by <span class="commenter">Patrick</span> on <span class="dateline">01-14-2009 3:33 AM</span></span>
+            
+            <p>You could stick to SQL for matters of job security.  Many people I talk to simply say "I don't know databases." or "I can't do SQL." - I need to stop talking to these people.
+<br/>
+<br/>Seriously though, the point that stuck out to me was... "it allows us to deal with the relationships between our data items in a sane fashion"  I haven't gotten to work with a PHP ORM yet either - so if you do I hope you discuss it/them.</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Svetlana</span> on <span class="dateline">08-22-2009 4:44 PM</span></span>
+            
+            <p>there was an article on TR about it recently:
+
+<br/>
+http://blogs.techrepublic.com.com/programming-and-development/?p=1563</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">Alex</span> on <span class="dateline">10-27-2012 5:02 PM</span></span>
+            
+            <p>I understand where you're cimnog from, but I have to disagree with your statement that  Django tries to be everything,  as I find the exact opposite to be the case.Django is amazing for what it does, and that is help you quickly develop dynamic websites.  If I have a new project, and it fits within the scope of Django's mission, I'll use Django every time.  If I'm bolting on functionality to an existing site, the Django probably isn't the right choice.  Likewise, if I'm using data from several sources, or trying to share a DB with another app, I'm not likely to go with Django.I've not used Pylons, as my first experience with Python was Django, but I'm surely looking for something more generic.  As it stands, if a site doesn't fit the mold, I'm falling back to PHP (CodeIgniter).  I like Python very much, though, and I will soon get around to deciding on a more all-purpose framework.  That could be Pylons, it could be TurboGears, Zope   Who knows?  No matter what I chose, though, Django will still be my  go-to  tool for rapid development.</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Alex</span> on <span class="dateline">10-27-2012 5:02 PM</span></span>
+            
+            <p>I understand where you're cimnog from, but I have to disagree with your statement that  Django tries to be everything,  as I find the exact opposite to be the case.Django is amazing for what it does, and that is help you quickly develop dynamic websites.  If I have a new project, and it fits within the scope of Django's mission, I'll use Django every time.  If I'm bolting on functionality to an existing site, the Django probably isn't the right choice.  Likewise, if I'm using data from several sources, or trying to share a DB with another app, I'm not likely to go with Django.I've not used Pylons, as my first experience with Python was Django, but I'm surely looking for something more generic.  As it stands, if a site doesn't fit the mold, I'm falling back to PHP (CodeIgniter).  I like Python very much, though, and I will soon get around to deciding on a more all-purpose framework.  That could be Pylons, it could be TurboGears, Zope   Who knows?  No matter what I chose, though, Django will still be my  go-to  tool for rapid development.</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">Alex</span> on <span class="dateline">10-27-2012 5:02 PM</span></span>
+            
+            <p>I understand where you're cimnog from, but I have to disagree with your statement that  Django tries to be everything,  as I find the exact opposite to be the case.Django is amazing for what it does, and that is help you quickly develop dynamic websites.  If I have a new project, and it fits within the scope of Django's mission, I'll use Django every time.  If I'm bolting on functionality to an existing site, the Django probably isn't the right choice.  Likewise, if I'm using data from several sources, or trying to share a DB with another app, I'm not likely to go with Django.I've not used Pylons, as my first experience with Python was Django, but I'm surely looking for something more generic.  As it stands, if a site doesn't fit the mold, I'm falling back to PHP (CodeIgniter).  I like Python very much, though, and I will soon get around to deciding on a more all-purpose framework.  That could be Pylons, it could be TurboGears, Zope   Who knows?  No matter what I chose, though, Django will still be my  go-to  tool for rapid development.</p>
+        </li><li class="comment o">
+            <span>Added by <span class="commenter">Pharme389</span> on <span class="dateline">01-26-2013 5:52 AM</span></span>
+            
+            <p>Hello! kdeefkg interesting kdeefkg site! I'm really like it! Very, very kdeefkg good!</p>
+        </li><li class="comment e">
+            <span>Added by <span class="commenter">Pharma291</span> on <span class="dateline">01-26-2013 5:52 AM</span></span>
+            
+            <p>Very nice site!</p>
+        </li>
+    </ul>
+    
+    <h3 id="add_comment">Add Your Comment</h3>
+    <form action="/blog/01-08-2009/why-you-should-be-using-an-object-database-instead-of-orm-part-1/submit_comment" id="comment_form" method="post">
+        
+        
+        
+        
+        <fieldset class="anon">
+            <input checked="checked" class="noborder" id="comment_type1" name="comment_type" type="hidden" value="Anonymous"/><!-- <label for="comment_type1">Anonymous</label> -->
+            <div>
+                <input id="comment_name" name="comment_name" onblur="populate_name(this)" onfocus="clear_name(this)" type="text" value="Your Name"/>
+                <input id="comment_email" name="comment_email" onblur="populate_email(this)" onfocus="clear_email(this)" type="text" value="Your Email"/>
+            </div>
+        </fieldset>
+<!--
+        <fieldset class="openid">
+            <input type="radio" id="comment_type2" class="noborder" name="comment_type" value="OpenID" /><label for="comment_type2">OpenID</label>
+            <div>
+                <input type="text" id="comment_openid" name="comment_openid" value="Your OpenID Identity" onfocus="clear_openid(this)" onblur="populate_openid(this)" /> <img tal:attr="src: app.getStaticMountpoint('images/openid-logo.gif')" alt="OpenID logo" /> 
+            </div>
+        </fieldset>
+-->
+        <fieldset>
+            <textarea cols="50" id="comment_msg" name="comment_msg" onblur="populate_comments(this)" onfocus="clear_comments(this)" rows="10">Your Comments</textarea>
+        </fieldset>
+        <fieldset>
+            <input class="submit" type="Submit" value="Submit Your Comment"/>
+        </fieldset>
+    </form>
+    
+</div>
+</div>
+
+                <div id="sidebar">
+
+    <link href="http://calendaraboutnothing.com/styles/widget/seinfeld-badge.css" media="screen, projection" rel="stylesheet" type="text/css"/>
+
+    <div class="seinfeld-badge user-polotek">
+        <h2>I like open software</h2>
+        <p><a href="http://calendaraboutnothing.com/~polotek" rel="me">Calendar About Nothing</a> tracks my public contributions on <a href="http://github.com/polotek">GitHub</a>.</p>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+
+    <script src="http://calendaraboutnothing.com/javascripts/widget/seinfeld-badge.js" type="text/javascript"></script>
+
+    <ul class="xoxo">
+        <li id="categories">
+            <h3>Categories</h3>
+            <dl class="xoxo_desc">
+                <dt>description</dt>
+                <dd>List of Categories for Posts</dd>
+            </dl>
+            <ul>
+                <li><a href="../../category/axiom-stack.html">axiom stack (2)</a></li><li><a href="../../category/blog-updates.html">blog updates (2)</a></li><li><a href="../../category/browsers.html">browsers (1)</a></li><li><a href="../../category/content-management.html">content management (2)</a></li><li><a href="../../category/databases.html">databases (1)</a></li><li><a href="../../category/e4x.html">e4x (1)</a></li><li><a href="../../category/exception-handling.html">exception handling (1)</a></li><li><a href="../../category/extjs.html">extjs (1)</a></li><li><a href="../../category/facebook.html">facebook (2)</a></li><li><a href="../../category/firefox.html">firefox (2)</a></li><li><a href="../../category/firefox-add-ons.html">firefox add-ons (2)</a></li><li><a href="../../category/google-chrome.html">google chrome (1)</a></li><li><a href="../../category/greasemonkey.html">greasemonkey (2)</a></li><li><a href="../../category/imho.html">imho (3)</a></li><li><a href="../../category/java.html">java (1)</a></li><li><a href="../../category/javascript.html">javascript (4)</a></li><li><a href="../../category/libxmljs.html">libxmljs (1)</a></li><li><a href="../../category/markdown.html">markdown (1)</a></li><li><a href="../../category/narwhal.html">narwhal (1)</a></li><li><a href="../../category/nodejs.html">node.js (2)</a></li><li><a href="../../category/oodb.html">OODB (1)</a></li><li><a href="../../category/opinions.html">opinions (1)</a></li><li><a href="../../category/rdbms.html">RDBMS (1)</a></li><li><a href="../../category/safari.html">safari (1)</a></li><li><a href="../../category/semantic-markup.html">semantic markup (1)</a></li><li><a href="../../category/serverjs.html">serverjs (1)</a></li><li><a href="../../category/stupid-dev-questions.html">stupid dev questions (2)</a></li><li><a href="../../category/uneducated-opinions.html">uneducated opinions (1)</a></li><li><a href="../../category/wysiwyg.html">wysiwyg (1)</a></li>
+            </ul>
+        </li>
+        <li id="recent">
+            <h3>Recent Entries</h3>
+            <dl class="xoxo_desc">
+                <dt>title</dt>
+                <dd>Recent Posts</dd>
+                <dt>description</dt>
+                <dd>Most Recent Posts by Date Published</dd>
+            </dl>
+            <ul>
+                <li><a href="../../10-10-2011/a-quick-rant-on-web-development-and-elegant-solutions.html">A quick rant on web development and elegant solutions</a></li><li><a href="../../01-22-2011/nodejs-community-could-use-some-tlc.html">The Node.js Community Could Use Some TLC</a></li><li><a href="../../08-04-2010/a-quick-project-to-create-an-ebook-from-html.html">A quick project to create an ebook from html</a></li><li><a href="../../06-17-2010/updating-libxmljs-for-nodejs-or-how-to-suck-less-at-google-v8.html">Updating libxmljs on node.js: or, how to suck less at Google v8</a></li><li><a href="../../02-24-2010/creating-a-blog-ill-actually-use.html">Creating a Blog I'll Actually Use</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+            </div>
+
+            <div id="footer">
+                <p class="devinfo">Powered by <a href="http://www.axiomstack.com">Axiom&#174; Stack</a></p>
+            </div>
+
+        </div>
+        <script src="../../static/js/scripts.js" type="text/javascript"></script>
+        <script src="http://www.google.com/jsapi" type="text/javascript"></script>
+        <script type="text/javascript">
+            //<![CDATA[
+            google.load("jquery", "1.3");
+            //]]>
+        </script>
+        <div id="ga">
+    <script type="text/javascript">
+        //<![CDATA[
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        //]]>
+    </script>
+    <script type="text/javascript">
+        //<![CDATA[
+        try {
+        var pageTracker = _gat._getTracker("UA-6862661-1");
+        pageTracker._trackPageview();
+        } catch(err) {}
+        //]]>
+    </script>
+</div>
+        <div id="ch">
+    <style type="text/css">@import url('../../static/ch/styles/default.css');</style>
+    <script src="../../static/ch/highlight.pack.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript">
+        //<![CDATA[
+        $(document).ready(function(){
+            hljs.initHighlighting();
+        });
+        //]]>
+    </script>
+</div>
+
+
+    </body>
+</html>

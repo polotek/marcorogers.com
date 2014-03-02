@@ -4,9 +4,9 @@ var restify = require('restify')
 
 var app = restify.createServer(config.serverOpts);
 
-// routes
+// static handler for blog archive
 oldBlogArchive(app, config, restify);
 
 app.listen(config.listenOpts.port, function() {
-  console.log('Listening at ' + app.name + ':' + config.listenOpts.port);
+  console.log('Listening on port ' + config.listenOpts.port);
 });

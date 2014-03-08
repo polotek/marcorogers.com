@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
-<service_bundle type="manifest" name="node-marcorogers.com-service">
-  <service name="site/node-marcorogers.com-service" type="service" version="1">
+<service_bundle type="manifest" name="marcorogers_com">
+  <service name="marcorogers_com" type="service" version="1">
   <create_default_instance enabled="true"/>
   <single_instance/>
   <dependency name="network" grouping="require_all" restart_on="refresh" type="service">

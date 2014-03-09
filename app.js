@@ -1,5 +1,5 @@
 var restify = require('restify')
-  , config = require('./config.json')
+  , config = require('./config/app-config.json')
   , oldBlogArchive = require('./old_blog_archive');
 
 var app = restify.createServer(config.serverOpts);
